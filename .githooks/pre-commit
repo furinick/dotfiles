@@ -61,14 +61,12 @@ elif command -v taplo &>/dev/null; then
     fi
   done <<<"$toml_files"
 elif command -v python3 &>/dev/null && python3 -c "import tomllib" &>/dev/null 2>&1; then
-  toml_ok=1
   while IFS= read -r f; do
     [[ -f "$f" ]] || continue
     if git show ":$f" | python3 -c "import sys,tomllib; tomllib.loads(sys.stdin.read())" &>/dev/null 2>&1; then
       pass "$f"
     else
       fail "$f (invalid TOML)"
-      toml_ok=0
     fi
   done <<<"$toml_files"
 else
