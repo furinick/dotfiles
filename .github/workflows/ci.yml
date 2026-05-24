@@ -14,11 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # ── TOML ──────────────────────────────────────────────────────────────
+        # ── TOML ──────────────────────────────────────────────────────────────
       - name: Install taplo
         run: |
           curl -fsSL https://github.com/tamasfe/taplo/releases/latest/download/taplo-linux-x86_64.gz \
-            | gunzip -c > /usr/local/bin/taplo
+          | gunzip -c > /usr/local/bin/taplo
           chmod +x /usr/local/bin/taplo
 
       - name: Lint TOML files
@@ -28,22 +28,22 @@ jobs:
             taplo lint "$f"
           done
 
-      # ── JSON / JSONC ───────────────────────────────────────────────────────
+        # ── JSON / JSONC ───────────────────────────────────────────────────────
       - name: Validate JSON/JSONC files
         run: |
           find . \( -name "*.json" -o -name "*.jsonc" \) -not -path "./.git/*" | while read -r f; do
             echo "  checking $f"
             python3 -c "
-          import sys, re, json
-          src = open('$f').read()
-          src = re.sub(r'//[^\n]*', '', src)
-          src = re.sub(r'/\*.*?\*/', '', src, flags=re.DOTALL)
-          json.loads(src)
-          print('  ok')
-          "
+            import sys, re, json
+            src = open('$f').read()
+            src = re.sub(r'//[^\n]*', '', src)
+            src = re.sub(r'/\*.*?\*/', '', src, flags=re.DOTALL)
+            json.loads(src)
+            print('  ok')
+            "
           done
 
-      # ── Lua (stylua) ───────────────────────────────────────────────────────
+        # ── Lua (stylua) ───────────────────────────────────────────────────────
       - name: Install stylua
         uses: JohnnyMorganz/stylua-action@v4
         with:
@@ -51,14 +51,14 @@ jobs:
           version: latest
           args: --check shared/nvim/
 
-      # ── Shell scripts ──────────────────────────────────────────────────────
+          # ── Shell scripts ──────────────────────────────────────────────────────
       - name: Run shellcheck
         uses: ludeeus/action-shellcheck@master
         with:
           scandir: "."
-          ignore_paths: ".git"
+          ignore_paths: ".git shared"  # ← add shared/ here
 
-      # ── Secret scan ────────────────────────────────────────────────────────
+          # ── Secret scan ────────────────────────────────────────────────────────
       - name: Scan for secrets (gitleaks)
         uses: gitleaks/gitleaks-action@v2
         env:

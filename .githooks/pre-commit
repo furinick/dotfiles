@@ -52,14 +52,12 @@ toml_files=$(echo "$STAGED" | tr ' ' '\n' | grep '\.toml$' || true)
 if [[ -z "$toml_files" ]]; then
   skip "No TOML files staged"
 elif command -v taplo &>/dev/null; then
-  toml_ok=1
   while IFS= read -r f; do
     [[ -f "$f" ]] || continue
     if taplo lint "$f" &>/dev/null; then
       pass "$f"
     else
       fail "$f (taplo lint failed)"
-      toml_ok=0
     fi
   done <<<"$toml_files"
 elif command -v python3 &>/dev/null && python3 -c "import tomllib" &>/dev/null 2>&1; then
