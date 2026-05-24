@@ -84,7 +84,7 @@ success "Committed."
 
 # ── push ──────────────────────────────────────────────────────────────────────
 echo
-BRANCH=$(git symbolic-ref --short HEAD)
+BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || echo "main")
 echo -n "Push to origin/${BRANCH}? [Y/n] "
 read -r push_choice
 
