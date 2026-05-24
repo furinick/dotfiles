@@ -1,89 +1,120 @@
 #!/usr/bin/env bash
-# scripts/bootstrap.sh — first-time setup for this dotfiles repo
-#
-# What it does:
-#   1. Installs the .githooks directory as the repo's hook path
-#   2. Creates a hosts/<hostname>/ directory if one doesn't exist yet
-#   3. Prints next steps
+# scripts/bootstrap.sh
+# First-time setup for this dotfiles repo. Safe to re-run.
 set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$DOTFILES_DIR"
 
-CYAN='\033[0;36m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BOLD='\033[1m'
-RESET='\033[0m'
+# ── colors ────────────────────────────────────────────────────────────────────
+if [[ -t 1 ]]; then
+  CYAN='\033[0;36m' GREEN='\033[0;32m' YELLOW='\033[1;33m'
+  RED='\033[0;31m' BOLD='\033[1m' RESET='\033[0m'
+  DIM='\033[2m'
+else
+  CYAN='' GREEN='' YELLOW='' RED='' BOLD='' RESET='' DIM=''
+fi
 
-info() { echo -e "${CYAN}${BOLD}=>${RESET} $*"; }
-success() { echo -e "${GREEN}${BOLD}✓${RESET} $*"; }
-warn() { echo -e "${YELLOW}${BOLD}!${RESET} $*"; }
+info() { echo -e "  ${CYAN}${BOLD}→${RESET}  $*"; }
+success() { echo -e "  ${GREEN}${BOLD}✓${RESET}  $*"; }
+warn() { echo -e "  ${YELLOW}${BOLD}⚠${RESET}  $*"; }
+error() {
+  echo -e "  ${RED}${BOLD}✗${RESET}  $*" >&2
+  exit 1
+}
+section() { echo -e "\n${BOLD}$*${RESET}"; }
+dim() { echo -e "  ${DIM}$*${RESET}"; }
 
-# ── 1. wire up git hooks ──────────────────────────────────────────────────────
-info "Configuring git hooks path → .githooks/"
+# ── preflight ─────────────────────────────────────────────────────────────────
+echo -e "\n${BOLD}${CYAN}Dotfiles Bootstrap${RESET}  ${DIM}${DOTFILES_DIR}${RESET}"
+echo -e "${DIM}────────────────────────────────────────${RESET}"
+
+command -v git &>/dev/null || error "git is required but not installed"
+command -v hostnamectl &>/dev/null || error "hostnamectl is required but not installed"
+
+HOST=$(hostnamectl hostname)
+HOST_DIR="hosts/${HOST}"
+SHARED="$DOTFILES_DIR/shared"
+
+# ── git hooks ─────────────────────────────────────────────────────────────────
+section "Git"
+info "Configuring hooks path → .githooks/"
 git config core.hooksPath .githooks
 chmod +x .githooks/pre-commit
-success "Hooks installed"
-
-# ── 2. make scripts executable ────────────────────────────────────────────────
 chmod +x scripts/*.sh
-success "Scripts marked executable"
+success "Hooks and scripts ready"
 
-# ── 3. scaffold host-specific directory ───────────────────────────────────────
-HOST=$(hostname -s)
-HOST_DIR="hosts/${HOST}"
-
+# ── host directory ────────────────────────────────────────────────────────────
+section "Host  ${DIM}(${HOST})${RESET}"
 if [[ -d "$HOST_DIR" ]]; then
-  warn "Host directory already exists: ${HOST_DIR}"
+  warn "Directory already exists: ${HOST_DIR}"
 else
-  info "Creating host directory: ${HOST_DIR}"
+  info "Scaffolding ${HOST_DIR}/"
+  mkdir -p "${HOST_DIR}/hypr/conf" "${HOST_DIR}/waybar"
 
-  # Mirror the same structure as shared/ so overrides are easy to find
-  mkdir -p \
-    "${HOST_DIR}/hypr/conf" \
-    "${HOST_DIR}/waybar"
-
-  # hyprland.conf stub — source shared first, then override
   cat >"${HOST_DIR}/hypr/hyprland.conf" <<'HYPR'
-# host-specific hyprland overrides for this machine
-# This file is sourced AFTER shared/hypr/hyprland.conf
+# ── Shared ────────────────────────────────────────────────────────────────────
+source = $HOME/dotfiles/shared/hypr/hyprland.conf
 
-# Example: override monitor layout for this machine
-# source = ~/.config/dotfiles/hosts/HOSTNAME/hypr/conf/monitors.conf
+# ── Machine-specific ──────────────────────────────────────────────────────────
+source = ./conf/env.conf
+source = ./conf/monitors.conf
 HYPR
 
-  # monitors.conf stub
+  cat >"${HOST_DIR}/hypr/conf/env.conf" <<'ENV'
+# Machine-specific environment variables
+# env = HOSTNAME, your-hostname
+ENV
+
   cat >"${HOST_DIR}/hypr/conf/monitors.conf" <<'MON'
-# monitors.conf — edit for this machine's display layout
+# Monitor layout for this machine
 # See: https://wiki.hyprland.org/Configuring/Monitors/
 #
-# Example:
-# monitor = DP-1, 2560x1440@144, 0x0, 1
+# monitor = DP-1,  2560x1440@144, 0x0,    1
 # monitor = HDMI-A-1, 1920x1080@60, 2560x0, 1
 MON
 
-  # waybar config stub
   cat >"${HOST_DIR}/waybar/config.jsonc" <<'WB'
-// waybar host overrides — merged on top of shared/waybar/config.jsonc
-// Useful for: different module sets per machine, battery module on laptop, etc.
+// Machine-specific waybar overrides
+// Useful for: battery, backlight, or interface modules unique to this machine
 {}
 WB
 
-  success "Host directory scaffolded: ${HOST_DIR}"
+  success "Scaffolded ${HOST_DIR}/"
 fi
 
-# ── 4. summary ────────────────────────────────────────────────────────────────
-echo
-echo -e "${BOLD}All set! Here's what was configured:${RESET}"
-echo -e "  • Git hooks:  ${CYAN}.githooks/pre-commit${RESET} runs on every commit"
-echo -e "  • Sync:       ${CYAN}./scripts/sync.sh${RESET} to stage → commit → push"
-echo -e "  • Host dir:   ${CYAN}${HOST_DIR}/${RESET} for ${HOST}-specific overrides"
-echo -e "  • CI:         ${CYAN}.github/workflows/ci.yml${RESET} validates on push"
-echo
-echo -e "${BOLD}Multi-machine pattern:${RESET}"
-echo "  shared/           — configs that apply everywhere"
-echo "  hosts/<hostname>/ — machine-specific overrides"
-echo
-echo -e "  In your hyprland.conf, add at the bottom:"
-echo -e "  ${CYAN}source = \$HOME/.config/dotfiles/hosts/\$(hostname -s)/hypr/hyprland.conf${RESET}"
+# ── symlinks ──────────────────────────────────────────────────────────────────
+section "Symlinks  ${DIM}(~/.config/)${RESET}"
+
+link() {
+  local src="$1" dst="$2"
+  ln -sfn "$src" "$dst"
+  success "$(basename "$dst")  ${DIM}→ ${src#"$HOME/"}${RESET}"
+}
+
+# shared
+link "$SHARED/elephant" "$HOME/.config/elephant"
+link "$SHARED/gtk-3.0" "$HOME/.config/gtk-3.0"
+link "$SHARED/gtk-4.0" "$HOME/.config/gtk-4.0"
+link "$SHARED/hyprland-autoname-workspaces" "$HOME/.config/hyprland-autoname-workspaces"
+link "$SHARED/kitty" "$HOME/.config/kitty"
+link "$SHARED/nvim" "$HOME/.config/nvim"
+link "$SHARED/walker" "$HOME/.config/walker"
+link "$SHARED/waybar" "$HOME/.config/waybar"
+link "$SHARED/starship.toml" "$HOME/.config/starship.toml"
+
+# host-specific
+link "$DOTFILES_DIR/$HOST_DIR/hypr" "$HOME/.config/hypr"
+
+# ── done ──────────────────────────────────────────────────────────────────────
+echo -e "\n${GREEN}${BOLD}All done!${RESET}\n"
+
+if [[ ! -s "${HOST_DIR}/hypr/conf/monitors.conf" ]] ||
+  grep -q "^#" "${HOST_DIR}/hypr/conf/monitors.conf" 2>/dev/null &&
+  ! grep -qv "^#\|^$" "${HOST_DIR}/hypr/conf/monitors.conf" 2>/dev/null; then
+  echo -e "${YELLOW}${BOLD}Action required:${RESET}"
+  dim "1. Edit ${HOST_DIR}/hypr/conf/env.conf     — set HOSTNAME"
+  dim "2. Edit ${HOST_DIR}/hypr/conf/monitors.conf — set display layout"
+  dim "3. Run: hyprctl reload"
+  echo
+fi
