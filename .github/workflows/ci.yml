@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  validate:
+    name: Validate configs
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # ── TOML ──────────────────────────────────────────────────────────────
+      - name: Install taplo
+        run: |
+          curl -fsSL https://github.com/tamasfe/taplo/releases/latest/download/taplo-linux-x86_64.gz \
+            | gunzip -c > /usr/local/bin/taplo
+          chmod +x /usr/local/bin/taplo
+
+      - name: Lint TOML files
+        run: |
+          find . -name "*.toml" -not -path "./.git/*" | while read -r f; do
+            echo "  checking $f"
+            taplo lint "$f"
+          done
+
+      # ── JSON / JSONC ───────────────────────────────────────────────────────
+      - name: Validate JSON/JSONC files
+        run: |
+          find . \( -name "*.json" -o -name "*.jsonc" \) -not -path "./.git/*" | while read -r f; do
+            echo "  checking $f"
+            python3 -c "
+          import sys, re, json
+          src = open('$f').read()
+          src = re.sub(r'//[^\n]*', '', src)
+          src = re.sub(r'/\*.*?\*/', '', src, flags=re.DOTALL)
+          json.loads(src)
+          print('  ok')
+          "
+          done
+
+      # ── Lua (stylua) ───────────────────────────────────────────────────────
+      - name: Install stylua
+        uses: JohnnyMorganz/stylua-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+          args: --check shared/nvim/
+
+      # ── Shell scripts ──────────────────────────────────────────────────────
+      - name: Run shellcheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: "."
+          ignore_paths: ".git"
+
+      # ── Secret scan ────────────────────────────────────────────────────────
+      - name: Scan for secrets (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

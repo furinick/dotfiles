@@ -1,0 +1,156 @@
+#!/usr/bin/env bash
+# .githooks/pre-commit — validates staged dotfiles before committing
+set -euo pipefail
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RESET='\033[0m'
+BOLD='\033[1m'
+
+pass() { echo -e "  ${GREEN}✓${RESET} $*"; }
+fail() {
+  echo -e "  ${RED}✗${RESET} $*"
+  FAILED=1
+}
+skip() { echo -e "  ${YELLOW}-${RESET} $*"; }
+title() { echo -e "\n${BOLD}$*${RESET}"; }
+
+FAILED=0
+STAGED=$(git diff --cached --name-only --diff-filter=ACM)
+
+# ── 1. secret / credential scan ───────────────────────────────────────────────
+title "Scanning for secrets..."
+SECRET_PATTERNS=(
+  'password\s*='
+  'secret\s*='
+  'api[_-]?key\s*='
+  'token\s*='
+  'ANTHROPIC_API_KEY'
+  'sk-[a-zA-Z0-9]{20,}'
+  'ghp_[a-zA-Z0-9]+'
+  'ssh-rsa AAAA'
+)
+
+secret_found=0
+for f in $STAGED; do
+  [[ -f "$f" ]] || continue
+  [[ "$f" == .githooks/* ]] && continue # don't scan hook files themselves
+  for pattern in "${SECRET_PATTERNS[@]}"; do
+    if git show ":$f" | grep -qiE "$pattern"; then
+      fail "Possible secret in ${f} (matched: ${pattern})"
+      secret_found=1
+    fi
+  done
+done
+[[ $secret_found -eq 0 ]] && pass "No secrets detected"
+
+# ── 2. TOML validation ────────────────────────────────────────────────────────
+title "Validating TOML files..."
+toml_files=$(echo "$STAGED" | tr ' ' '\n' | grep '\.toml$' || true)
+
+if [[ -z "$toml_files" ]]; then
+  skip "No TOML files staged"
+elif command -v taplo &>/dev/null; then
+  toml_ok=1
+  while IFS= read -r f; do
+    [[ -f "$f" ]] || continue
+    if taplo lint "$f" &>/dev/null; then
+      pass "$f"
+    else
+      fail "$f (taplo lint failed)"
+      toml_ok=0
+    fi
+  done <<<"$toml_files"
+elif command -v python3 &>/dev/null && python3 -c "import tomllib" &>/dev/null 2>&1; then
+  toml_ok=1
+  while IFS= read -r f; do
+    [[ -f "$f" ]] || continue
+    if git show ":$f" | python3 -c "import sys,tomllib; tomllib.loads(sys.stdin.read())" &>/dev/null 2>&1; then
+      pass "$f"
+    else
+      fail "$f (invalid TOML)"
+      toml_ok=0
+    fi
+  done <<<"$toml_files"
+else
+  skip "Neither taplo nor python3+tomllib found — skipping TOML validation"
+fi
+
+# ── 3. JSON / JSONC validation ────────────────────────────────────────────────
+title "Validating JSON files..."
+json_files=$(echo "$STAGED" | tr ' ' '\n' | grep -E '\.(json|jsonc)$' || true)
+
+if [[ -z "$json_files" ]]; then
+  skip "No JSON files staged"
+elif command -v python3 &>/dev/null; then
+  while IFS= read -r f; do
+    [[ -f "$f" ]] || continue
+    # strip // and /* */ comments for .jsonc
+    if git show ":$f" |
+      python3 -c "
+import sys, re, json
+src = sys.stdin.read()
+src = re.sub(r'//[^\n]*', '', src)
+src = re.sub(r'/\*.*?\*/', '', src, flags=re.DOTALL)
+json.loads(src)
+" &>/dev/null 2>&1; then
+      pass "$f"
+    else
+      fail "$f (invalid JSON)"
+    fi
+  done <<<"$json_files"
+else
+  skip "python3 not found — skipping JSON validation"
+fi
+
+# ── 4. Lua formatting (stylua) ────────────────────────────────────────────────
+title "Checking Lua formatting..."
+lua_files=$(echo "$STAGED" | tr ' ' '\n' | grep '\.lua$' || true)
+
+if [[ -z "$lua_files" ]]; then
+  skip "No Lua files staged"
+elif command -v stylua &>/dev/null; then
+  lua_ok=1
+  while IFS= read -r f; do
+    [[ -f "$f" ]] || continue
+    if stylua --check "$f" &>/dev/null 2>&1; then
+      pass "$f"
+    else
+      fail "$f (run: stylua $f)"
+      lua_ok=0
+    fi
+  done <<<"$lua_files"
+  [[ $lua_ok -eq 0 ]] && echo -e "  ${YELLOW}Tip:${RESET} run \`stylua shared/nvim/\` to auto-fix"
+else
+  skip "stylua not found — skipping Lua formatting check"
+fi
+
+# ── 5. Shell script check (shellcheck) ────────────────────────────────────────
+title "Checking shell scripts..."
+sh_files=$(echo "$STAGED" | tr ' ' '\n' | grep -E '\.(sh|bash)$' || true)
+
+if [[ -z "$sh_files" ]]; then
+  skip "No shell scripts staged"
+elif command -v shellcheck &>/dev/null; then
+  while IFS= read -r f; do
+    [[ -f "$f" ]] || continue
+    if shellcheck "$f" &>/dev/null 2>&1; then
+      pass "$f"
+    else
+      fail "$f (shellcheck issues found — run: shellcheck $f)"
+    fi
+  done <<<"$sh_files"
+else
+  skip "shellcheck not found — skipping shell script checks"
+fi
+
+# ── result ────────────────────────────────────────────────────────────────────
+echo
+if [[ $FAILED -ne 0 ]]; then
+  echo -e "${RED}${BOLD}Pre-commit checks failed. Fix the issues above and try again.${RESET}"
+  echo -e "${YELLOW}To skip hooks in an emergency: git commit --no-verify${RESET}"
+  exit 1
+else
+  echo -e "${GREEN}${BOLD}All checks passed.${RESET}"
+fi

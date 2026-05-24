@@ -1,0 +1,71 @@
+{
+  "layer": "top",
+  "position": "top",
+  "exclusive": true,
+  "passthrough": false,
+  "height": 10,
+  "modules-left": [],
+  "modules-center": [
+    "clock",
+    "hyprland/workspaces",
+    "pulseaudio",
+    "network",
+    "custom/swaync"
+  ],
+  "modules-right": [],
+  "clock": {
+    "format": "{:%H:%M}",
+    "format-alt": "{:%Y-%m-%d %H:%M}",
+    "tooltip-format": "{:%A, %B %d %Y}",
+    "on-click-right": "pkill waybar && hyprctl dispatch exec waybar && pkill hyprland-autoname-workspaces && hyprland-autoname-workspaces"
+  },
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "all-outputs": false
+  },
+  "pulseaudio": {
+    "format": "{icon}",
+    "format-muted": "󰝟",
+    "format-icons": {
+      "default": [
+        "󰕿",
+        "󰖀",
+        "󰕾"
+      ]
+    },
+    "on-click": "pavucontrol",
+    "scroll-step": 1,
+    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-",
+    "tooltip-format": "{volume}%"
+  },
+  "network": {
+    "format-wifi": "{icon}",
+    "format-disconnected": "󰤭",
+    "format-ethernet": "󰈀",
+    "tooltip-format-wifi": "{essid} {signalStrength}%",
+    "tooltip-format-disconnected": "Disconnected",
+    "format-icons": [
+      "󰤯",
+      "󰤟",
+      "󰤢",
+      "󰤥",
+      "󰤨"
+    ]
+  },
+  "custom/swaync": {
+    "tooltip": false,
+    "format": "{icon}",
+    "format-icons": {
+      "none": "󰂚 ",
+      "notification": "󰵙 ",
+      "dnd-none": "󰂛 ",
+      "dnd-notification": "󰂛 "
+    },
+    "return-type": "json",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  }
+}

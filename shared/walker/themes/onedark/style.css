@@ -1,0 +1,264 @@
+@import 'onedark.css';
+
+/* ============================================================
+WALKER — One Dark Theme
+~/.config/walker/themes/onedark/style.css
+============================================================ */
+
+/* -- normal (default) -- */
+:root {
+  --radius-box:   0.6em;
+  --radius-item:  0.4em;
+  --radius-input: 0.4em;
+  --pad-box:      0.75em;
+  --pad-input:    0.5em 0.75em;
+  --pad-item:     0.5em 0.75em;
+  --font-input:   1em;
+  --font-subtext: 0.75em;
+  --font-keybind: 0.7em;
+  --font-calc:    1.5em;
+  --font-symbol:  1.5em;
+  --width:        900px;
+}
+
+/* ============================================================
+RESET
+============================================================ */
+* {
+  all: unset;
+  font-family: "LiberationSans Nerd Font", "Liberation Sans", monospace;
+  line-height: 1.2;
+}
+
+/* ============================================================
+POPOVER (context menus)
+============================================================ */
+popover {
+  background:    @base;
+  border:        1px solid @overlay;
+  border-radius: var(--radius-box);
+  padding:       var(--pad-box);
+  color:         @white;
+}
+
+/* ============================================================
+ICON SIZES
+============================================================ */
+.normal-icons { -gtk-icon-size: 1.8em; }
+.large-icons  { -gtk-icon-size: 1.8em; }
+
+/* ============================================================
+SCROLLBAR
+============================================================ */
+scrollbar {
+  opacity: 0;
+}
+
+/* ============================================================
+WINDOW
+============================================================ */
+window {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+
+/* ============================================================
+MAIN WINDOW WRAPPER
+============================================================ */
+.box-wrapper {
+  background:    @base;
+  border:        1px solid @overlay;
+  border-radius: var(--radius-box);
+  padding:       var(--pad-box);
+  min-width:     var(--width);
+}
+
+/* ============================================================
+SEARCH INPUT
+============================================================ */
+.search-container {
+  border-radius:  var(--radius-input);
+  margin-bottom:  0.4em;
+  margin-top:     0.2em;
+}
+
+.input {
+  background:    @surface;
+  border:        1px solid @overlay;
+  border-radius: var(--radius-input);
+  padding:       var(--pad-input);
+  color:         @white;
+  caret-color:   @blue;
+  font-size:     var(--font-input);
+}
+
+.input:focus,
+.input:active {
+  border: 1px solid alpha(@blue, 0.5);
+}
+
+.input placeholder {
+  color:   @white;
+  opacity: 0.25;
+}
+
+.input selection {
+  background: @overlay;
+}
+
+/* ============================================================
+LIST
+============================================================ */
+.list {
+  color: @white;
+}
+
+/* ============================================================
+ITEMS
+============================================================ */
+.item-box {
+  border-radius: var(--radius-item);
+  border:        1px solid transparent;
+  padding:       var(--pad-item);
+  color:         @white;
+}
+
+child:selected .item-box,
+row:selected .item-box {
+  background: alpha(@blue, 0.1);
+  border:     1px solid alpha(@blue, 0.25);
+}
+
+.item-subtext {
+  font-size: var(--font-subtext);
+  color:     @subtext;
+}
+
+.providerlist .item-subtext {
+  font-size: unset;
+  color:     @text;
+}
+
+.item-image-text {
+  font-size: 1.75em;
+}
+
+.item-quick-activation {
+  background:    alpha(@blue, 0.12);
+  border-radius: calc(var(--radius-item) * 0.7);
+  padding:       0.2em 0.4em;
+  color:         @subtext;
+  font-size:     var(--font-keybind);
+}
+
+/* ============================================================
+PREVIEW PANEL
+============================================================ */
+.preview {
+  border:        1px solid @overlay;
+  border-radius: var(--radius-item);
+  color:         @white;
+}
+
+.preview-box,
+.elephant-hint,
+.placeholder {
+  color: @subtext;
+}
+
+.preview .large-icons {
+  -gtk-icon-size: 64px;
+}
+
+/* ============================================================
+CALCULATOR
+============================================================ */
+.calc .item-text {
+  font-size: var(--font-calc);
+  color:     @blue;
+}
+
+/* ============================================================
+SYMBOLS
+============================================================ */
+.symbols .item-image {
+  font-size: var(--font-symbol);
+}
+
+/* ============================================================
+TODO
+============================================================ */
+.todo.done .item-text-box {
+  opacity: 0.25;
+}
+
+.todo.urgent {
+  font-size: 1.5em;
+  color:     @red;
+}
+
+.todo.active {
+  font-weight: bold;
+}
+
+/* ============================================================
+BLUETOOTH
+============================================================ */
+.bluetooth.disconnected {
+  opacity: 0.4;
+}
+
+/* ============================================================
+KEYBINDS BAR
+============================================================ */
+.keybinds {
+  padding-top: 0.5em;
+  margin-top:  0.4em;
+  border-top:  1px solid @overlay;
+  font-size:   var(--font-keybind);
+  color:       @subtext;
+}
+
+.keybind-button {
+  opacity: 0.5;
+}
+
+.keybind-button:hover {
+  opacity: 0.8;
+}
+
+.keybind-bind {
+  text-transform: lowercase;
+  opacity:        0.35;
+}
+
+.keybind-label {
+  padding:       0.15em 0.35em;
+  border-radius: 0.25em;
+  border:        1px solid alpha(@white, 0.2);
+  color:         @subtext;
+}
+
+/* ============================================================
+ERROR
+============================================================ */
+.error {
+  padding:       var(--pad-item);
+  background:    alpha(@red, 0.12);
+  border:        1px solid alpha(@red, 0.35);
+  border-radius: var(--radius-item);
+  color:         @white;
+}
+
+/* ============================================================
+MISC
+============================================================ */
+:not(.calc).current {
+  font-style: italic;
+  color:      @cyan;
+}
+
+.preview-content.archlinuxpkgs,
+.preview-content.dnfpackages {
+  font-family: "LiberationSans Nerd Font", monospace;
+}

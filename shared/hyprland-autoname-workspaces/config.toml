@@ -1,0 +1,76 @@
+version = "1.2.0"
+
+[format]
+dedup = true
+dedup_inactive_fullscreen = false
+delim = "|"
+workspace = "{clients}"
+workspace_empty = "{name}"
+client = "{icon}"
+client_active = "{icon} {class}"
+client_dup = "{icon}{counter_sup}"
+client_dup_fullscreen = "[{icon}]{delim}{icon}{counter_unfocused}"
+client_fullscreen = "[{icon}]"
+
+# ============================================================
+# WORKSPACE NAMES
+# ============================================================
+[workspaces_name]
+1 = "1"
+2 = "2"
+3 = "3"
+4 = "4"
+5 = "5"
+6 = "1"
+7 = "2"
+8 = "3"
+9 = "4"
+10= "5"
+
+# ============================================================
+# INACTIVE CLASS ICONS
+# ============================================================
+[class]
+DEFAULT           = "󰣆 "
+"(?i)firefox"     = "󰈹 "
+"(?i)kitty"       = ""
+"(?i)steam"       = "󰓓"
+"(?i)discord"     = ""
+"(?i)vesktop"     = ""
+"(?i)spotify"     = "󰓇"
+"(?i)mpv"         = ""
+"(?i)vlc"         = "󰕼"
+"(?i)gimp.*"      = ""
+"(?i)krita"       = ""
+"(?i)yazi"        = ""
+"(?i)dolphin"     = ""
+"(?i)pavucontrol" = "󰓃"
+"(?i)printer"     = "󰐪"
+"(?i)config"      = ""
+"(?i)setting"     = ""
+
+# ============================================================
+# ACTIVE CLASS — icon + class name
+# ============================================================
+[class_active]
+DEFAULT           = "󰣆 {class}"
+"(?i)kitty"       = " Terminal"
+"(?i)firefox"     = "󰈹 Firefox"
+"(?i)vesktop"     = "  Discord"
+"(?i)steam_app*"  = "󰊴 {title}"
+
+# ============================================================
+# TITLE OVERRIDES — browser specific
+# ============================================================
+[title_in_class."(?i)(firefox|chrom.*)"]
+"(?i)youtube music"   = " "
+"(?i)youtube"         = " "
+"(?i)github"          = " "
+"(?i)reddit"          = "󰑍 "
+
+# ============================================================
+# EXCLUDE
+# ============================================================
+[exclude]
+# "" = "^$"
+"(?i)fcitx" = ".*"
