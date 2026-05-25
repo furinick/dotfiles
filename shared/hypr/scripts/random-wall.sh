@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DIRS=(
-  "$HOME/Imagens/Wallpapers/onedark-bright/"
+  "$HOME/dotfiles/shared/wallpapers/onedark"
 )
 
 # start the daemon

@@ -1,18 +1,8 @@
 @import 'onedark.css';
 
-/* ============================================================
-TUNE THESE TO MATCH YOUR DEVICE
-font-size is the single source of truth — everything else
-scales from it via em units.
-
-1080p:  13px
-1440p:  15px
-4K:     18px
-============================================================ */
-
 * {
   font-family: "LiberationSans Nerd Font", "Liberation Sans Font", monospace;
-  font-size: 16px;
+  font-size: 17px;
   border: none;
   border-radius: 0;
   min-height: 0;
@@ -117,6 +107,9 @@ NETWORK
   color: @white;
   padding: 0 0.4em 0 0.5em;
   transition: color 0.15s ease;
+
+  /* overflow: hidden; */
+  /* transition: max-width 0.3s ease; */
 }
 
 #network:hover {
