@@ -1,0 +1,27 @@
+[[plugin.deps]]
+use = "yazi-rs/plugins:git"
+rev = "be524fb"
+hash = "88e56a64b7ce7c4314427452343fef17"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:full-border"
+rev = "be524fb"
+hash = "7b625412411be411153886894d9acaf"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:smart-filter"
+rev = "be524fb"
+hash = "c887903a63a2ff520081b6d90a4b3392"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:fzf"
+rev = "be524fb"
+hash = "99aa06d3014798d86001c324468d497f"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:zoxide"
+rev = "be524fb"
+hash = "99aa06d3014798d86001c324468d497f"
+
+[flavor]
+deps = []

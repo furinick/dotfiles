@@ -102,6 +102,7 @@ link "$SHARED/nvim" "$HOME/.config/nvim"
 link "$SHARED/walker" "$HOME/.config/walker"
 link "$SHARED/waybar" "$HOME/.config/waybar"
 link "$SHARED/starship.toml" "$HOME/.config/starship.toml"
+link "$SHARED/yazi" "$HOME/.config/yazi"
 
 # host-specific
 link "$DOTFILES_DIR/$HOST_DIR/hypr" "$HOME/.config/hypr"

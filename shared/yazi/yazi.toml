@@ -1,0 +1,51 @@
+[mgr]
+# panel width ratio: parent | current | preview
+ratio          = [1, 2, 1]
+
+show_hidden    = true
+show_symlink   = true   # show where symlinks point — handy for your dotfiles
+sort_by        = "natural"  # 1, 2, 10 order instead of 1, 10, 2
+sort_dir_first = true
+sort_sensitive = false
+sort_reverse   = false
+
+# keep N files visible above/below cursor while scrolling
+# set to a huge number (e.g. 100) to keep cursor centred
+scrolloff = 5
+
+# show file size in the right-hand gutter
+linemode = "size"
+
+[preview]
+wrap          = "no"
+tab_size      = 2
+max_width     = 1200  # bump up if you have a HiDPI display
+max_height    = 1800
+image_filter  = "lanczos3"  # best quality; drop to "triangle" if sluggish
+image_quality = 80
+
+# give slow terminals a moment before blasting image data
+image_delay = 30  # ms; increase if images flicker while scrolling
+
+[opener]
+edit = [
+  { run = "nvim %s", block = true, for = "unix" },
+]
+open = [
+  { run = "xdg-open %s1", desc = "Open" },
+]
+# example: open videos with mpv, detached so yazi doesn't wait
+play = [
+  { run = "mpv %s", orphan = true, for = "unix" },
+]
+
+[tasks]
+micro_workers    = 10  # parallel tasks for small ops (icon fetch, etc.)
+macro_workers    = 4   # parallel tasks for heavy ops (copy, move, etc.)
+bizarre_retry    = 5   # retries before a task is considered failed
+image_alloc      = 536870912   # 512 MiB — image decode memory cap
+image_bound      = [0, 0]
+suppress_preload = false
+
+[log]
+enabled = false  # flip to true only when debugging plugins

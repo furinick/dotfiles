@@ -1,0 +1,23 @@
+# ~/.config/yazi/keymap.toml
+
+[mgr]
+prepend_keymap = [
+  # -- Navigation ──────────────────────────────
+  { on = "z", run = "plugin zoxide",              desc = "Jump with zoxide" },
+  { on = "f", run = "plugin fzf",                 desc = "Fuzzy find file" },
+
+  # -- Search ──────────────────────────────────
+  { on = "s", run = "search --via=rg",            desc = "Search contents (ripgrep)" },
+  { on = "S", run = "search --via=fd",            desc = "Search filenames (fd)" },
+
+  # -- Common dirs ─────────────────────────────
+  { on = ["g", "c"], run = "cd ~/.config",        desc = "Go to config" },
+  { on = ["g", "h"], run = "cd ~",                desc = "Go to home" },
+  { on = ["g", "d"], run = "cd ~/Downloads",      desc = "Go to Downloads" },
+
+  # -- Editor ──────────────────────────────────
+  { on = "e", run = "open --interactive",         desc = "Open with..." },
+
+  # -- Misc ────────────────────────────────────
+  { on = "?", run = "help",                       desc = "Open keybind help" },
+]
