@@ -10,7 +10,8 @@
     "hyprland/workspaces",
     "pulseaudio",
     "network",
-    "custom/swaync"
+    "custom/swaync",
+    "custom/power"
   ],
   "modules-right": [],
   "clock": {
@@ -67,5 +68,11 @@
     "on-click": "swaync-client -t -sw",
     "on-click-right": "swaync-client -d -sw",
     "escape": true
+  },
+  "custom/power": {
+    "format": "⏻",
+    "tooltip": false,
+    "on-click": "hyprshutdown",
+    "on-click-right": "systemctl suspend"
   }
 }
