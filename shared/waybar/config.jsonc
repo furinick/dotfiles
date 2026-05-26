@@ -58,10 +58,10 @@
     "tooltip": false,
     "format": "{icon}",
     "format-icons": {
-      "none": "󰂚 ",
-      "notification": "󰵙 ",
-      "dnd-none": "󰂛 ",
-      "dnd-notification": "󰂛 "
+      "none": "󰂚",
+      "notification": "󰵙",
+      "dnd-none": "󰂛",
+      "dnd-notification": "󰂛"
     },
     "return-type": "json",
     "exec": "swaync-client -swb",
@@ -72,7 +72,7 @@
   "custom/power": {
     "format": "⏻",
     "tooltip": false,
-    "on-click": "hyprshutdown",
+    "on-click": "hyprshutdown --post-cmd 'shutdown now'",
     "on-click-right": "systemctl suspend"
   }
 }

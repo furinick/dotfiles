@@ -1,8 +1,9 @@
 @import 'onedark.css';
 
 * {
-  font-family: "LiberationSans Nerd Font", "Liberation Sans Font", monospace;
-  font-size: 17px;
+  font-family: "LiterationSans Nerd Font", "Liberation Sans Font", monospace;
+  font-size: 18px;
+  font-weight: 500;
   border: none;
   border-radius: 0;
   min-height: 0;
@@ -13,7 +14,6 @@
 /* ============================================================
 BAR
 ============================================================ */
-
 window#waybar {
   background: transparent;
   color: @text;
@@ -22,118 +22,148 @@ window#waybar {
 /* ============================================================
 THE PILL
 ============================================================ */
-
 .modules-center {
   background: @base;
-  border-radius: 9em;
-  padding: 0 0.3em 0 1em;
+  border-radius: 9999em;
+  padding: 0 1em;
   margin-top: 0.8em;
   margin-bottom: 0em;
   min-height: 2em;
+  transition: background 0.2s ease,
+              color 0.2s ease,
+              padding 0.2s ease,
+              min-width 0.2s ease,
+              opacity 0.2s ease;
+}
 
-  transition: all 0.15s ease;
+/* ============================================================
+CENTER MODULES
+============================================================ */
+#pulseaudio,
+#network,
+#custom-swaync,
+#custom-power {
+  padding: 0 0.25em;
 }
 
 /* ============================================================
 CLOCK
 ============================================================ */
-
 #clock {
   color: white;
+  padding: 0 0.5em;
+  transition: color 0.3s ease;
 }
 
 /* ============================================================
 WORKSPACES
 ============================================================ */
-
 #workspaces {
-  padding: 0 0.8em;
+  padding: 0 0.5em;
 }
 
 #workspaces button {
-  padding: 0 0.6em 0 0.3em;
+  padding: 0 0.2em;
   margin: 0.3em 0;
-  border-radius: 0.8em;
+  min-height: 1.4em;
+  border-radius: 9999em;
   color: @subtext;
   background: transparent;
-  transition: all 0.15s ease;
+  transition: background 0.2s ease,
+              color 0.2s ease,
+              padding 0.2s ease,
+              opacity 0.2s ease;
 }
 
 #workspaces button:hover {
   background: @overlay;
   color: @text;
-  text-shadow: 0px 0px;
 }
 
 #workspaces button.active {
   background: @blue;
   color: @white;
-  padding: 0 1em;
+  padding: 0 0.75em;
 }
 
 #workspaces button.active:hover {
   border-radius: 0.4em;
+  opacity: 0.85;
 }
 
 #workspaces button.urgent {
   background: @red;
   color: @base;
+  opacity: 0.9;
+}
+
+#workspaces button.urgent:hover {
+  opacity: 1;
 }
 
 /* ============================================================
 AUDIO
 ============================================================ */
-
 #pulseaudio {
   color: @white;
-  transition: color 0.15s ease;
   font-size: 1.2em;
-  padding: 0 0.2em 0 0;
+  transition: color 0.15s ease, opacity 0.15s ease;
 }
 
 #pulseaudio:hover {
   color: @text;
+  opacity: 0.75;
 }
 
 #pulseaudio.muted {
   color: @red;
+  opacity: 0.7;
+}
+
+#pulseaudio.muted:hover {
+  opacity: 1;
 }
 
 /* ============================================================
 NETWORK
 ============================================================ */
-
 #network {
   color: @white;
-  padding: 0 0.4em 0 0.5em;
-  transition: color 0.15s ease;
-
-  /* overflow: hidden; */
-  /* transition: max-width 0.3s ease; */
+  transition: color 0.15s ease, opacity 0.15s ease;
 }
 
 #network:hover {
+  opacity: 0.75;
 }
 
 #network.disconnected {
   color: @red;
+  opacity: 0.7;
+}
+
+#network.disconnected:hover {
+  opacity: 1;
 }
 
 /* ============================================================
 NOTIFICATIONS (swaync)
 ============================================================ */
-
 #custom-swaync {
   color: @yellow;
-  padding: 0 0.5em;
-  transition: color 0.15s ease;
+  transition: color 0.15s ease, opacity 0.15s ease;
 }
 
 #custom-swaync:hover {
+  opacity: 0.75;
 }
 
 #custom-swaync.notification {
   color: @yellow;
+  opacity: 0.85;
+}
+
+#custom-swaync.notification:hover {
+  opacity: 1;
 }
 
 #custom-swaync.dnd-none,
@@ -142,22 +172,13 @@ NOTIFICATIONS (swaync)
 }
 
 /* ============================================================
-TRAY
+POWER
 ============================================================ */
-
-#tray {
-  margin: 0.3em;
-  padding: 0 0.5em 0 0.8em;
-  background: @overlay;
-  color: @white;
-  border-radius: 1.8em;
+#custom-power {
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-#tray > .passive {
-  -gtk-icon-effect: dim;
-}
-
-#tray > .needs-attention {
-  -gtk-icon-effect: highlight;
-  color: @yellow;
+#custom-power:hover {
+  color: @red;
+  opacity: 0.8;
 }
