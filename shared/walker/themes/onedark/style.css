@@ -35,7 +35,6 @@ POPOVER (context menus)
 ============================================================ */
 popover {
   background:    @base;
-  border:        1px solid @overlay;
   border-radius: var(--radius-box);
   padding:       var(--pad-box);
   color:         @white;
@@ -67,7 +66,6 @@ MAIN WINDOW WRAPPER
 ============================================================ */
 .box-wrapper {
   background:    @base;
-  border:        1px solid @overlay;
   border-radius: var(--radius-box);
   padding:       var(--pad-box);
   min-width:     var(--width);
@@ -84,7 +82,6 @@ SEARCH INPUT
 
 .input {
   background:    @surface;
-  border:        1px solid @overlay;
   border-radius: var(--radius-input);
   padding:       var(--pad-input);
   color:         @white;
@@ -94,7 +91,6 @@ SEARCH INPUT
 
 .input:focus,
 .input:active {
-  border: 1px solid alpha(@blue, 0.5);
 }
 
 .input placeholder {
@@ -118,7 +114,6 @@ ITEMS
 ============================================================ */
 .item-box {
   border-radius: var(--radius-item);
-  border:        1px solid transparent;
   padding:       var(--pad-item);
   color:         @white;
 }
@@ -126,7 +121,6 @@ ITEMS
 child:selected .item-box,
 row:selected .item-box {
   background: alpha(@blue, 0.1);
-  border:     1px solid alpha(@blue, 0.25);
 }
 
 .item-subtext {

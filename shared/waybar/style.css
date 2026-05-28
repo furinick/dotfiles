@@ -16,42 +16,41 @@ BAR
 ============================================================ */
 window#waybar {
   background: transparent;
-  color: @text;
+  color: @white;
 }
 
 /* ============================================================
-THE PILL
+PILLS
 ============================================================ */
 .modules-center {
   background: @base;
-  border-radius: 9999em;
-  padding: 0 1em;
-  margin-top: 0.8em;
-  margin-bottom: 0em;
+  border-radius: 0 0 1em 1em;
+  padding: 0.1em 0.5em;
   min-height: 2em;
   transition: background 0.2s ease,
               color 0.2s ease,
               padding 0.2s ease,
-              min-width 0.2s ease,
               opacity 0.2s ease;
 }
 
-/* ============================================================
-CENTER MODULES
-============================================================ */
-#pulseaudio,
-#network,
-#custom-swaync,
-#custom-power {
-  padding: 0 0.25em;
+.modules-right {
+  background: @base;
+  border-radius: 9999em;
+  padding: 0.1em 0.5em;
+  min-height: 2em;
+  transition: background 0.2s ease,
+              color 0.2s ease,
+              padding 0.2s ease,
+              opacity 0.2s ease;
 }
 
 /* ============================================================
 CLOCK
 ============================================================ */
 #clock {
-  color: white;
+  color: @white;
   padding: 0 0.5em;
+  font-weight: bold;
   transition: color 0.3s ease;
 }
 
@@ -64,7 +63,7 @@ WORKSPACES
 
 #workspaces button {
   padding: 0 0.2em;
-  margin: 0.3em 0;
+  margin: 0.3em 0.2em;
   min-height: 1.4em;
   border-radius: 9999em;
   color: @subtext;
@@ -72,12 +71,15 @@ WORKSPACES
   transition: background 0.2s ease,
               color 0.2s ease,
               padding 0.2s ease,
-              opacity 0.2s ease;
+              opacity 0.2s ease,
+              min-width 0.1s ease;
 }
 
 #workspaces button:hover {
   background: @overlay;
   color: @text;
+  text-shadow: 0 0;
+  padding: 0 0.75em;
 }
 
 #workspaces button.active {
@@ -87,8 +89,7 @@ WORKSPACES
 }
 
 #workspaces button.active:hover {
-  border-radius: 0.4em;
-  opacity: 0.85;
+  padding: 0 1em;
 }
 
 #workspaces button.urgent {
@@ -102,15 +103,33 @@ WORKSPACES
 }
 
 /* ============================================================
+SHARED MODULE STYLES
+============================================================ */
+#pulseaudio,
+#network,
+#custom-swaync,
+#custom-power,
+.power-child{
+  padding: 0 0.25em;
+  margin: 0.3em 0.1em;
+  min-height: 1.4em;
+  border-radius: 9999em;
+  transition: background 0.2s ease,
+              color 0.2s ease,
+              opacity 0.2s ease,
+              min-width 0.5s ease;
+}
+
+/* ============================================================
 AUDIO
 ============================================================ */
 #pulseaudio {
   color: @white;
   font-size: 1.2em;
-  transition: color 0.15s ease, opacity 0.15s ease;
 }
 
 #pulseaudio:hover {
+  background: @overlay;
   color: @text;
   opacity: 0.75;
 }
@@ -129,10 +148,10 @@ NETWORK
 ============================================================ */
 #network {
   color: @white;
-  transition: color 0.15s ease, opacity 0.15s ease;
 }
 
 #network:hover {
+  background: @overlay;
   opacity: 0.75;
 }
 
@@ -146,19 +165,18 @@ NETWORK
 }
 
 /* ============================================================
-NOTIFICATIONS (swaync)
+NOTIFICATIONS
 ============================================================ */
 #custom-swaync {
   color: @yellow;
-  transition: color 0.15s ease, opacity 0.15s ease;
 }
 
 #custom-swaync:hover {
+  background: @overlay;
   opacity: 0.75;
 }
 
 #custom-swaync.notification {
-  color: @yellow;
   opacity: 0.85;
 }
 
@@ -171,14 +189,28 @@ NOTIFICATIONS (swaync)
   color: @muted;
 }
 
+
+/* ============================================================
+MODULES RIGHT
+============================================================ */
+
+.modules-right {
+  margin-right: 1em;
+  margin-top: 0.1em;
+}
+
 /* ============================================================
 POWER
 ============================================================ */
 #custom-power {
-  transition: color 0.2s ease, opacity 0.2s ease;
+  color: @white;
 }
 
-#custom-power:hover {
-  color: @red;
-  opacity: 0.8;
+.power-child label{
+  padding: 0 0.5em;
 }
+
+#custom-power:hover   { color: @red; }
+#custom-reboot:hover  { color: @green; }
+#custom-suspend:hover { color: @blue; }
+#custom-lock:hover    { color: @yellow; }

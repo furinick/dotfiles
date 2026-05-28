@@ -10,10 +10,11 @@
     "hyprland/workspaces",
     "pulseaudio",
     "network",
-    "custom/swaync",
-    "custom/power"
+    "custom/swaync"
   ],
-  "modules-right": [],
+  "modules-right": [
+    "group/power-group"
+  ],
   "clock": {
     "format": "{:%H:%M}",
     "format-alt": "{:%Y-%m-%d %H:%M}",
@@ -72,7 +73,35 @@
   "custom/power": {
     "format": "⏻",
     "tooltip": false,
-    "on-click": "hyprshutdown --post-cmd 'shutdown now'",
-    "on-click-right": "systemctl suspend"
+    "on-click": "hyprshutdown -t 'Shutting down...' --post-cmd 'shutdown -P 0'"
+  },
+  "group/power-group": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 500,
+      "children-class": "power-child",
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/power",
+      "custom/lock",
+      "custom/suspend",
+      "custom/reboot"
+    ]
+  },
+  "custom/reboot": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "hyprshutdown -t 'Shutting down...' --post-cmd 'shutdown -P 0'"
+  },
+  "custom/suspend": {
+    "format": "󰤄",
+    "tooltip": false,
+    "on-click": "systemctl suspend"
+  },
+  "custom/lock": {
+    "format": "󰌾",
+    "tooltip": false,
+    "on-click": "hyprlock"
   }
 }
