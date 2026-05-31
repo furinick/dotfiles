@@ -10,10 +10,10 @@ WALKER — One Dark Theme
   --radius-box:   0.6em;
   --radius-item:  0.4em;
   --radius-input: 0.4em;
-  --pad-box:      0.75em;
+  --pad-box:      0.5em;
   --pad-input:    0.5em 0.75em;
   --pad-item:     0.5em 0.75em;
-  --font-input:   1em;
+  --font-input:   1.1em;
   --font-subtext: 0.75em;
   --font-keybind: 0.7em;
   --font-calc:    1.5em;
@@ -27,7 +27,7 @@ RESET
 * {
   all: unset;
   font-family: "LiberationSans Nerd Font", "Liberation Sans", monospace;
-  line-height: 1.2;
+  line-height: 1;
 }
 
 /* ============================================================
@@ -76,8 +76,7 @@ SEARCH INPUT
 ============================================================ */
 .search-container {
   border-radius:  var(--radius-input);
-  margin-bottom:  0.4em;
-  margin-top:     0.2em;
+  margin:         0.25em 0;
 }
 
 .input {
@@ -87,6 +86,7 @@ SEARCH INPUT
   color:         @white;
   caret-color:   @blue;
   font-size:     var(--font-input);
+  font-weight:   bold;
 }
 
 .input:focus,
@@ -106,7 +106,8 @@ SEARCH INPUT
 LIST
 ============================================================ */
 .list {
-  color: @white;
+  color: @text;
+  font-size: 1.1em;
 }
 
 /* ============================================================
@@ -126,6 +127,9 @@ row:selected .item-box {
 .item-subtext {
   font-size: var(--font-subtext);
   color:     @subtext;
+  opacity: 0;
+  line-height: 0;
+  font-size: 0;
 }
 
 .providerlist .item-subtext {
