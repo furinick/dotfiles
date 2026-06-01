@@ -1,1 +1,1 @@
-(include "./widgets/powermenu.yuck")
+(include "./widgets/wifi.yuck")
