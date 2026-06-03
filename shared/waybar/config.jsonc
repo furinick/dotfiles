@@ -10,6 +10,7 @@
     "hyprland/workspaces",
     "pulseaudio",
     "network",
+    "battery",
     "custom/swaync"
   ],
   "modules-right": [
@@ -53,6 +54,16 @@
       "󰤢",
       "󰤥",
       "󰤨"
+    ]
+  },
+  "battery": {
+    "format": "{icon}",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
     ]
   },
   "custom/swaync": {
