@@ -60,12 +60,31 @@
   },
   "battery": {
     "format": "{icon}",
+    "tooltip": "true",
+    "tootip-format": "balls",
     "format-icons": [
-      "",
-      "",
-      "",
-      "",
-      ""
+      "󰂎",
+      "󰁺",
+      "󰁻",
+      "󰁼",
+      "󰁽",
+      "󰁾",
+      "󰁿",
+      "󰂀",
+      "󰂁",
+      "󰁹"
+    ],
+    "format-charging": [
+      "󰢟",
+      "󰢜",
+      "󰂆",
+      "󰂇",
+      "󰂈",
+      "󰢝",
+      "󰂉",
+      "󰢞",
+      "󰂋",
+      "󰂅"
     ]
   },
   "custom/swaync": {

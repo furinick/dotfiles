@@ -31,6 +31,7 @@ alias brightness="brightnessctl set"
 export HYPRSHOT_DIR="$HOME/Imagens/Screenshots/"
 
 # Java
+export CLASSPATH=.:/usr/share/java/postgresql-jdbc/postgresql.jar
 export _JAVA_AWT_WM_NONREPARENTING=1
 wmname LG3D
 
@@ -51,3 +52,4 @@ eval "$(atuin init zsh)"
 
 # Telling go to GO fuck off somewhere else
 export GOPATH="$HOME/.local/share/go"
+
