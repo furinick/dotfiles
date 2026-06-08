@@ -2,7 +2,7 @@
 
 * {
   font-family: "LiterationSans Nerd Font", "Liberation Sans Font", monospace;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 500;
   border: none;
   border-radius: 0;
@@ -25,7 +25,7 @@ PILLS
 .modules-center {
   background: @base;
   border-radius: 0 0 1em 1em;
-  padding: 0.1em 0.5em;
+  padding: 0.1em 0.25em;
   min-height: 2em;
   transition: background 0.2s ease,
               color 0.2s ease,
@@ -49,7 +49,7 @@ CLOCK
 ============================================================ */
 #clock {
   color: @white;
-  padding: 0 0.5em;
+  padding: 0 0.25em 0 0.75em;
   font-weight: bold;
   transition: color 0.3s ease;
 }
@@ -120,27 +120,22 @@ SHARED MODULE STYLES
               min-width 0.5s ease;
 }
 
+#pulseaudio:hover,
+#network:hover,
+#custom-swaync:hover,
+#custom-power:hover,
+.power-child:hover {
+}
+
 /* ============================================================
 AUDIO
 ============================================================ */
 #pulseaudio {
   color: @white;
-  font-size: 1.2em;
-}
-
-#pulseaudio:hover {
-  background: @overlay;
-  color: @text;
-  opacity: 0.75;
 }
 
 #pulseaudio.muted {
   color: @red;
-  opacity: 0.7;
-}
-
-#pulseaudio.muted:hover {
-  opacity: 1;
 }
 
 /* ============================================================
@@ -150,18 +145,8 @@ NETWORK
   color: @white;
 }
 
-#network:hover {
-  background: @overlay;
-  opacity: 0.75;
-}
-
 #network.disconnected {
   color: @red;
-  opacity: 0.7;
-}
-
-#network.disconnected:hover {
-  opacity: 1;
 }
 
 /* ============================================================
@@ -171,17 +156,7 @@ NOTIFICATIONS
   color: @yellow;
 }
 
-#custom-swaync:hover {
-  background: @overlay;
-  opacity: 0.75;
-}
-
 #custom-swaync.notification {
-  opacity: 0.85;
-}
-
-#custom-swaync.notification:hover {
-  opacity: 1;
 }
 
 #custom-swaync.dnd-none,
@@ -189,6 +164,22 @@ NOTIFICATIONS
   color: @muted;
 }
 
+/* ============================================================
+TRAY
+============================================================ */
+#tray {
+  background: @overlay;
+  padding: 0 0.75em;
+  margin: 0.3em 0.2em;
+  min-height: 1.4em;
+  border-radius: 9999em;
+  color: @subtext;
+  transition: background 0.2s ease,
+              color 0.2s ease,
+              padding 0.2s ease,
+              opacity 0.2s ease,
+              min-width 0.1s ease;
+}
 
 /* ============================================================
 MODULES RIGHT

@@ -11,7 +11,8 @@
     "pulseaudio",
     "network",
     "battery",
-    "custom/swaync"
+    "custom/swaync",
+    "tray"
   ],
   "modules-right": [
     "group/power-group"
@@ -54,7 +55,8 @@
       "󰤢",
       "󰤥",
       "󰤨"
-    ]
+    ],
+    "on-click": "connex"
   },
   "battery": {
     "format": "{icon}",
@@ -80,6 +82,9 @@
     "on-click": "swaync-client -t -sw",
     "on-click-right": "swaync-client -d -sw",
     "escape": true
+  },
+  "tray": {
+    "spacing": 8
   },
   "custom/power": {
     "format": "⏻",
