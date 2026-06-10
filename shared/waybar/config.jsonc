@@ -97,8 +97,10 @@
   },
   "battery": {
     "format": "{icon}",
+    "format-alt": "{time} {icon}",
+    "format-time": "{H}:{m}",
     "tooltip": "true",
-    "tootip-format": "balls",
+    "tooltip-format": "capacity: {capacity}%",
     "format-icons": [
       "󰂎",
       "󰁺",
