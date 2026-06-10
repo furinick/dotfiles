@@ -19,11 +19,12 @@ window#waybar {
   color: @white;
 }
 
+
 /* ============================================================
 PILLS
 ============================================================ */
 .modules-center {
-  background: @base;
+  background: @surface;
   border-radius: 0 0 1em 1em;
   padding: 0.1em 0.25em;
   min-height: 2em;
@@ -34,7 +35,7 @@ PILLS
 }
 
 .modules-right {
-  background: @base;
+  background: @surface;
   border-radius: 9999em;
   padding: 0.1em 0.5em;
   min-height: 2em;
@@ -58,7 +59,7 @@ CLOCK
 WORKSPACES
 ============================================================ */
 #workspaces {
-  padding: 0 0.5em;
+  padding: 0 0.2em;
 }
 
 #workspaces button {
@@ -109,6 +110,7 @@ SHARED MODULE STYLES
 #network,
 #custom-swaync,
 #custom-power,
+.audio-child,
 .power-child{
   padding: 0 0.25em;
   margin: 0.3em 0.1em;
@@ -136,6 +138,30 @@ AUDIO
 
 #pulseaudio.muted {
   color: @red;
+}
+
+#pulseaudio-slider {
+    padding: 0;
+    margin: 0;
+}
+#pulseaudio-slider slider {
+    min-height: 0px;
+    min-width: 0px;
+    opacity: 0;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+}
+#pulseaudio-slider trough {
+    min-height: 10px;
+    min-width: 80px;
+    border-radius: 5px;
+    background: black;
+}
+#pulseaudio-slider highlight {
+    min-width: 2em;
+    border-radius: 0.5em;
+    background: @blue;
 }
 
 /* ============================================================
@@ -205,3 +231,13 @@ POWER
 #custom-reboot:hover  { color: @green; }
 #custom-suspend:hover { color: @blue; }
 #custom-lock:hover    { color: @yellow; }
+
+/* ============================================================
+TOOLTIPS
+============================================================ */
+tooltip {
+  background: @overlay;
+  color: @white;
+  border-radius: 6px;
+  padding: 6px 8px;
+}

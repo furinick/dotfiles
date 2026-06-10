@@ -1,0 +1,289 @@
+/* ── OneDark palette ── */
+/*
+  bg0      #282c34  base background
+  bg1      #2c313c  slightly lighter (header, info box)
+  bg2      #353b45  hover / subtle surface
+  bg3      #3e4452  active / selected surface
+  fg       #abb2bf  main text
+  fg-dim   #5c6370  muted / secondary text
+  red      #e06c75
+  green    #98c379
+  yellow   #e5c07b
+  blue     #61afef
+  purple   #c678dd
+  cyan     #56b6c2
+  border   #3e4452
+*/
+
+/* ── Window ── */
+.wifi-window {
+  background: transparent;
+}
+
+/* ── Root container ── */
+.wifi-manager {
+  background-color: #282c34;
+  border-radius: 12px;
+  border: 1px solid #3e4452;
+  min-width: 360px;
+  max-width: 360px;
+  box-shadow: 0 8px 32px alpha(black, 0.5);
+  color: #abb2bf;
+}
+
+/* ── Header ── */
+.header {
+  padding: 14px 16px;
+  background-color: #2c313c;
+  border-radius: 12px 12px 0 0;
+  border-bottom: 1px solid #3e4452;
+}
+
+.header-title {
+  font-size: 15px;
+  font-weight: bold;
+  color: #abb2bf;
+}
+
+.scan-btn {
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 6px;
+  min-width: 0;
+  min-height: 0;
+  color: #5c6370;
+}
+
+.scan-btn:hover {
+  background: #3e4452;
+  color: #abb2bf;
+}
+
+/* ── Status bar ── */
+.status-bar {
+  background: alpha(#61afef, 0.12);
+  color: #61afef;
+  padding: 6px 16px;
+  font-size: 12px;
+  border-bottom: 1px solid alpha(#61afef, 0.2);
+}
+
+/* ── Content area ── */
+.content {
+  padding: 8px 0;
+}
+
+.ap-scroll {
+  min-height: 120px;
+}
+
+/* ── AP list ── */
+.ap-list {
+  padding: 4px 8px;
+}
+
+/* ── AP row ── */
+.ap-row {
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 2px 0;
+  min-height: 0;
+  color: #abb2bf;
+}
+
+.ap-row:hover {
+  background: #2c313c;
+}
+
+.ap-active {
+  background: alpha(#61afef, 0.1);
+  border: 1px solid alpha(#61afef, 0.2);
+}
+
+.ap-active:hover {
+  background: alpha(#61afef, 0.15);
+}
+
+.ap-ssid {
+  font-size: 13px;
+  font-weight: 500;
+  color: #abb2bf;
+}
+
+.ap-status {
+  font-size: 11px;
+  color: #5c6370;
+}
+
+.status-connected {
+  color: #98c379;
+}
+
+.signal-icon {
+  color: #5c6370;
+}
+
+.ap-active .signal-icon {
+  color: #61afef;
+}
+
+.lock-icon {
+  color: #5c6370;
+}
+
+.chevron {
+  color: #3e4452;
+}
+
+/* ── Disabled message ── */
+.disabled-msg {
+  padding: 48px 0;
+}
+
+.muted {
+  color: #5c6370;
+  font-size: 13px;
+}
+
+/* ── Detail panel ── */
+.detail-panel {
+  padding: 12px 16px 16px;
+}
+
+.back-btn {
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  padding: 4px;
+  min-width: 0;
+  min-height: 0;
+  color: #5c6370;
+}
+
+.back-btn:hover {
+  background: #3e4452;
+  color: #abb2bf;
+}
+
+.detail-ssid {
+  font-size: 16px;
+  font-weight: bold;
+  color: #abb2bf;
+}
+
+.connected-badge {
+  font-size: 11px;
+  color: #98c379;
+  background: alpha(#98c379, 0.12);
+  border-radius: 99px;
+  padding: 2px 10px;
+}
+
+/* ── Info table ── */
+.info-box {
+  background: #2c313c;
+  border-radius: 8px;
+  border: 1px solid #3e4452;
+  padding: 12px;
+}
+
+.info-key {
+  font-size: 12px;
+  color: #5c6370;
+}
+
+.info-val {
+  font-size: 12px;
+  font-weight: 500;
+  color: #abb2bf;
+}
+
+/* ── Action buttons ── */
+.action-btn {
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.connect-btn {
+  background: #61afef;
+  color: #282c34;
+  border: none;
+}
+
+.connect-btn:hover {
+  background: #74bbf1;
+}
+
+.disconnect-btn {
+  background: #353b45;
+  color: #abb2bf;
+  border: none;
+}
+
+.disconnect-btn:hover {
+  background: #3e4452;
+}
+
+.forget-btn {
+  background: alpha(#e06c75, 0.12);
+  color: #e06c75;
+  border: 1px solid alpha(#e06c75, 0.2);
+}
+
+.forget-btn:hover {
+  background: alpha(#e06c75, 0.2);
+}
+
+/* ── Password dialog ── */
+.password-dialog {
+  padding: 16px;
+}
+
+.dialog-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #abb2bf;
+}
+
+.pw-entry {
+  border-radius: 8px;
+  background: #2c313c;
+  color: #abb2bf;
+  border: 1px solid #3e4452;
+}
+
+.pw-entry:focus {
+  border-color: #61afef;
+}
+
+.show-pw-btn {
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 6px;
+  min-width: 0;
+  min-height: 0;
+  color: #5c6370;
+}
+
+.show-pw-btn:hover {
+  background: #3e4452;
+  color: #abb2bf;
+}
+
+.cancel-btn {
+  background: #353b45;
+  color: #abb2bf;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+
+.cancel-btn:hover {
+  background: #3e4452;
+}
