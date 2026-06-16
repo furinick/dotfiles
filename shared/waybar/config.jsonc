@@ -9,6 +9,7 @@
     "clock",
     "hyprland/workspaces",
     "group/audio",
+    "group/backlight",
     "network",
     "battery",
     "custom/swaync",
@@ -79,6 +80,35 @@
     "max": 100,
     "orientation": "horizontal"
   },
+  "group/backlight": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 500,
+      "children-class": "backlight-child"
+    },
+    "modules": [
+      "backlight",
+      "backlight/slider"
+    ]
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "{icon}",
+    "format-icons": [
+      "󰃚",
+      "󰃛",
+      "󰃜",
+      "󰃝",
+      "󰃞",
+      "󰃟",
+      "󰃠"
+    ]
+  },
+  "backlight/slider": {
+    "min": 0,
+    "max": 100,
+    "orientation": "horizontal"
+  },
   "network": {
     "format-wifi": "{icon}",
     "format-disconnected": "󰤭",
@@ -97,10 +127,10 @@
   },
   "battery": {
     "format": "{icon}",
-    "format-alt": "{time} {icon}",
+    "format-alt": "{icon}{capacity}%",
     "format-time": "{H}:{m}",
     "tooltip": "true",
-    "tooltip-format": "capacity: {capacity}%",
+    "tooltip-format": "󱦟 {time}\n󱐋 {power} watt",
     "format-icons": [
       "󰂎",
       "󰁺",

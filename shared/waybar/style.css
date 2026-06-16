@@ -29,9 +29,9 @@ PILLS
   padding: 0.1em 0.25em;
   min-height: 2em;
   transition: background 0.2s ease,
-              color 0.2s ease,
-              padding 0.2s ease,
-              opacity 0.2s ease;
+    color 0.2s ease,
+    padding 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .modules-right {
@@ -40,9 +40,9 @@ PILLS
   padding: 0.1em 0.5em;
   min-height: 2em;
   transition: background 0.2s ease,
-              color 0.2s ease,
-              padding 0.2s ease,
-              opacity 0.2s ease;
+    color 0.2s ease,
+    padding 0.2s ease,
+    opacity 0.2s ease;
 }
 
 /* ============================================================
@@ -70,10 +70,10 @@ WORKSPACES
   color: @subtext;
   background: transparent;
   transition: background 0.2s ease,
-              color 0.2s ease,
-              padding 0.2s ease,
-              opacity 0.2s ease,
-              min-width 0.1s ease;
+    color 0.2s ease,
+    padding 0.2s ease,
+    opacity 0.2s ease,
+    min-width 0.1s ease;
 }
 
 #workspaces button:hover {
@@ -107,27 +107,30 @@ WORKSPACES
 SHARED MODULE STYLES
 ============================================================ */
 #pulseaudio,
+#pulseaudio-slider,
+#backlight,
+#backlight-slider,
 #network,
 #custom-swaync,
 #custom-power,
+.backlight-child,
 .audio-child,
-.power-child{
+.power-child {
   padding: 0 0.25em;
   margin: 0.3em 0.1em;
   min-height: 1.4em;
   border-radius: 9999em;
   transition: background 0.2s ease,
-              color 0.2s ease,
-              opacity 0.2s ease,
-              min-width 0.5s ease;
+    color 0.2s ease,
+    opacity 0.2s ease,
+    min-width 0.5s ease;
 }
 
 #pulseaudio:hover,
 #network:hover,
 #custom-swaync:hover,
 #custom-power:hover,
-.power-child:hover {
-}
+.power-child:hover {}
 
 /* ============================================================
 AUDIO
@@ -140,28 +143,60 @@ AUDIO
   color: @red;
 }
 
-#pulseaudio-slider {
-    padding: 0;
-    margin: 0;
-}
+#pulseaudio-slider {}
+
 #pulseaudio-slider slider {
-    min-height: 0px;
-    min-width: 0px;
-    opacity: 0;
-    background-image: none;
-    border: none;
-    box-shadow: none;
+  min-height: 0px;
+  min-width: 0px;
+  opacity: 0;
+  background-image: none;
+  border: none;
+  box-shadow: none;
 }
+
 #pulseaudio-slider trough {
-    min-height: 10px;
-    min-width: 80px;
-    border-radius: 5px;
-    background: black;
+  min-height: 0.5em;
+  min-width: 3em;
+  border-radius: 99em;
+  background: @base;
 }
+
 #pulseaudio-slider highlight {
-    min-width: 2em;
-    border-radius: 0.5em;
-    background: @blue;
+  min-width: 0.1em;
+  border-radius: 0.5em;
+  background: @white;
+}
+
+/* ============================================================
+BACKLIGHT
+============================================================ */
+#backlight {
+  color: @white;
+  padding: 0em;
+  margin: 0.3em 0.1em;
+}
+
+
+#backlight-slider trough {
+  min-height: 0.5em;
+  min-width: 3em;
+  border-radius: 99em;
+  background: @base;
+}
+
+#backlight-slider highlight {
+  min-width: 0.1em;
+  border-radius: 0.5em;
+  background: @white;
+}
+
+#backlight-slider slider {
+  min-height: 0;
+  min-width: 0;
+  opacity: 0;
+  background-image: none;
+  border: none;
+  box-shadow: none;
 }
 
 /* ============================================================
@@ -182,8 +217,7 @@ NOTIFICATIONS
   color: @yellow;
 }
 
-#custom-swaync.notification {
-}
+#custom-swaync.notification {}
 
 #custom-swaync.dnd-none,
 #custom-swaync.dnd-notification {
@@ -201,10 +235,10 @@ TRAY
   border-radius: 9999em;
   color: @subtext;
   transition: background 0.2s ease,
-              color 0.2s ease,
-              padding 0.2s ease,
-              opacity 0.2s ease,
-              min-width 0.1s ease;
+    color 0.2s ease,
+    padding 0.2s ease,
+    opacity 0.2s ease,
+    min-width 0.1s ease;
 }
 
 /* ============================================================
@@ -223,14 +257,25 @@ POWER
   color: @white;
 }
 
-.power-child label{
+.power-child label {
   padding: 0 0.5em;
 }
 
-#custom-power:hover   { color: @red; }
-#custom-reboot:hover  { color: @green; }
-#custom-suspend:hover { color: @blue; }
-#custom-lock:hover    { color: @yellow; }
+#custom-power:hover {
+  color: @red;
+}
+
+#custom-reboot:hover {
+  color: @green;
+}
+
+#custom-suspend:hover {
+  color: @blue;
+}
+
+#custom-lock:hover {
+  color: @yellow;
+}
 
 /* ============================================================
 TOOLTIPS
