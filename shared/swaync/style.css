@@ -1,0 +1,87 @@
+@import './onedark.css';
+
+* {
+  border-radius: 0.5em;
+  font-family: "LiterationSans Nerd Font", monospace;
+}
+
+.control-center {
+  background: @base;
+  color: @text;
+}
+
+.notification {
+  background: @surface;
+  color: @text;
+  border-radius: 0.5em;
+  border: 1px solid @overlay;
+}
+
+.notification:hover {
+  background: @overlay;
+}
+
+.notification-default-action {
+  background: @blue;
+  color: @white;
+  border-radius: 0.25em;
+}
+
+.widget-dnd {
+  background: @surface;
+  color: @text;
+}
+
+.widget-dnd-checkbox:checked {
+  background: @yellow;
+}
+
+.widget-mpris-player {
+  background: @surface;
+  border: 1px solid @overlay;
+}
+
+.widget-mpris-player:hover {
+  background: @overlay;
+}
+
+.volume-slider,
+.backlight-slider {
+  background: @overlay;
+  border-radius: 0.5em;
+}
+
+.volume-slider:hover,
+.backlight-slider:hover {
+  background: @overlay;
+}
+
+.title-button {
+  background: @blue;
+  color: @white;
+  border-radius: 0.25em;
+}
+
+.title-button:hover {
+  background: @cyan;
+}
+
+.widget-buttons-grid {
+  padding: 10px;
+  margin: 5px 10px;
+}
+
+.widget-buttons-grid > flowbox {
+  width: 100%;
+  max-width: 100%;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild {
+  flex: 1;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button {
+  padding: 15px 20px;
+  margin: 5px;
+  width: 100%;
+}
