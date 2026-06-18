@@ -50,10 +50,12 @@ CLOCK
 ============================================================ */
 #clock {
   color: @white;
-  padding: 0 0.25em 0 0.75em;
+  padding: 0 0.25em 0 0.5em;
   font-weight: bold;
   transition: color 0.3s ease;
 }
+
+#clock-child {}
 
 /* ============================================================
 WORKSPACES

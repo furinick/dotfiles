@@ -6,7 +6,7 @@
   "height": 10,
   "modules-left": [],
   "modules-center": [
-    "clock",
+    "group/clock",
     "hyprland/workspaces",
     "group/audio",
     "group/backlight",
@@ -18,10 +18,27 @@
   "modules-right": [
     "group/power-group"
   ],
-  "clock": {
+  "group/clock": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 250,
+      "children-class": "clock-child",
+      "click-to-reveal": false,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "clock#time",
+      "clock#date"
+    ]
+  },
+  "clock#time": {
     "format": "{:%R}",
-    "format-alt": "{:%F %R}",
+    "on-click-right": "pkill waybar && hyprctl dispatch exec waybar && pkill hyprland-autoname-workspaces && hyprland-autoname-workspaces",
+    "tooltip": false
+  },
+  "clock#date": {
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "on-click-right": "pkill waybar && hyprctl dispatch exec waybar && pkill hyprland-autoname-workspaces && hyprland-autoname-workspaces",
     "calendar": {
       "mode": "year",
       "mode-mon-col": 3,
@@ -42,7 +59,7 @@
       "on-scroll-up": "shift_up",
       "on-scroll-down": "shift_down"
     },
-    "on-click-right": "pkill waybar && hyprctl dispatch exec waybar && pkill hyprland-autoname-workspaces && hyprland-autoname-workspaces"
+    "format": "{:%F}"
   },
   "hyprland/workspaces": {
     "format": "{name}",
@@ -51,7 +68,7 @@
   "group/audio": {
     "orientation": "horizontal",
     "drawer": {
-      "transition-duration": 500,
+      "transition-duration": 250,
       "children-class": "audio-child"
     },
     "modules": [
@@ -83,7 +100,7 @@
   "group/backlight": {
     "orientation": "horizontal",
     "drawer": {
-      "transition-duration": 500,
+      "transition-duration": 250,
       "children-class": "backlight-child"
     },
     "modules": [
@@ -182,7 +199,7 @@
   "group/power-group": {
     "orientation": "horizontal",
     "drawer": {
-      "transition-duration": 500,
+      "transition-duration": 250,
       "children-class": "power-child",
       "transition-left-to-right": false
     },
