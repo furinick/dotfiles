@@ -38,6 +38,7 @@
   },
   "clock#date": {
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "on-click": "gnome-calendar",
     "on-click-right": "pkill waybar && hyprctl dispatch exec waybar && pkill hyprland-autoname-workspaces && hyprland-autoname-workspaces",
     "calendar": {
       "mode": "year",
@@ -213,7 +214,7 @@
   "custom/reboot": {
     "format": "",
     "tooltip": false,
-    "on-click": "hyprshutdown -t 'Shutting down...' --post-cmd 'shutdown -P 0'"
+    "on-click": "hyprshutdown -t 'restarting...' --post-cmd 'reboot'"
   },
   "custom/suspend": {
     "format": "󰤄",
