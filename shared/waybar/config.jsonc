@@ -9,7 +9,6 @@
     "group/clock",
     "hyprland/workspaces",
     "group/audio",
-    "group/backlight",
     "network",
     "battery",
     "custom/swaync",
@@ -50,13 +49,11 @@
         "days": "<span color='#ffffff'><b>{}</b></span>",
         "weeks": "<span color='#61afef'><b>W{}</b></span>",
         "weekdays": "<span color='#98c379'><b>{}</b></span>",
-        "today": "<span color='#e06c75'><b><u>{}</u></b></span>"
+        "today": "<span background='#e06c75'><b>{}</b></span>"
       }
     },
     "actions": {
       "on-click-right": "mode",
-      "on-scroll-up": "tz_up",
-      "on-scroll-down": "tz_down",
       "on-scroll-up": "shift_up",
       "on-scroll-down": "shift_down"
     },
@@ -94,35 +91,6 @@
     "tooltip-format": "{volume}%"
   },
   "pulseaudio/slider": {
-    "min": 0,
-    "max": 100,
-    "orientation": "horizontal"
-  },
-  "group/backlight": {
-    "orientation": "horizontal",
-    "drawer": {
-      "transition-duration": 250,
-      "children-class": "backlight-child"
-    },
-    "modules": [
-      "backlight",
-      "backlight/slider"
-    ]
-  },
-  "backlight": {
-    "device": "intel_backlight",
-    "format": "{icon}",
-    "format-icons": [
-      "󰃚",
-      "󰃛",
-      "󰃜",
-      "󰃝",
-      "󰃞",
-      "󰃟",
-      "󰃠"
-    ]
-  },
-  "backlight/slider": {
     "min": 0,
     "max": 100,
     "orientation": "horizontal"
@@ -206,10 +174,18 @@
     },
     "modules": [
       "custom/power",
+      "idle_inhibitor",
       "custom/lock",
       "custom/suspend",
       "custom/reboot"
     ]
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "󰒳",
+      "deactivated": "󰒲"
+    }
   },
   "custom/reboot": {
     "format": "",

@@ -110,12 +110,10 @@ SHARED MODULE STYLES
 ============================================================ */
 #pulseaudio,
 #pulseaudio-slider,
-#backlight,
-#backlight-slider,
 #network,
 #custom-swaync,
 #custom-power,
-.backlight-child,
+#idle_inhibitor,
 .audio-child,
 .power-child {
   padding: 0 0.25em;
@@ -167,38 +165,6 @@ AUDIO
   min-width: 0.1em;
   border-radius: 0.5em;
   background: @white;
-}
-
-/* ============================================================
-BACKLIGHT
-============================================================ */
-#backlight {
-  color: @white;
-  padding: 0em;
-  margin: 0.3em 0.1em;
-}
-
-
-#backlight-slider trough {
-  min-height: 0.5em;
-  min-width: 3em;
-  border-radius: 99em;
-  background: @base;
-}
-
-#backlight-slider highlight {
-  min-width: 0.1em;
-  border-radius: 0.5em;
-  background: @white;
-}
-
-#backlight-slider slider {
-  min-height: 0;
-  min-width: 0;
-  opacity: 0;
-  background-image: none;
-  border: none;
-  box-shadow: none;
 }
 
 /* ============================================================
