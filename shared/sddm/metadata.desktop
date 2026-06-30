@@ -1,0 +1,15 @@
+[SddmGreeterTheme]
+Name=onedark-rice
+Description=Custom One Dark theme with random blurred wallpaper, clock, and centered login
+Author=nicolas
+Copyright=2026
+License=MIT
+Type=sddm-theme
+Version=1.0
+Website=
+Screenshot=
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=translations
+Theme-Id=onedark-rice
+Theme-API=2.0
