@@ -29,6 +29,7 @@
       "button-text": "Clear All"
     },
     "buttons-grid#quick": {
+      "buttons-per-row": 3,
       "actions": [
         {
           "label": "󰖩",
@@ -45,6 +46,7 @@
       ]
     },
     "buttons-grid#power": {
+      "buttons-per-row": 4,
       "actions": [
         {
           "label": "󰐥",

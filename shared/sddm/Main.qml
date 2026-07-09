@@ -30,10 +30,6 @@ Rectangle {
   }
 
   // ===================== ANIMATED PIPES BACKGROUND =====================
-  // Recreates the classic terminal "pipes.sh" effect natively in QML:
-  // colored segments crawl across a grid, leaving cells that light up
-  // and fade out following a Li-ion battery discharge curve (instant
-  // peak, fast initial drop, long plateau, then a sharp final drop).
   Canvas {
     id: pipesCanvas
     anchors.fill: parent
@@ -48,20 +44,14 @@ Rectangle {
     property bool gridDrawn: false
     property int frameCount: 0
 
-    // how many frames a cell stays lit before fully fading, and the
-    // shape of that fade - tune these to taste
     readonly property int fadeDurationFrames: 90
     readonly property real initialDropEnd: 0.08
     readonly property real plateauEnd: 0.85
     readonly property real plateauLevel: 0.62
 
-    // map of "x,y" -> { frame: touchedAtFrame, color: pipe's color }
     property var litCells: ({})
 
     function dischargeAlpha(t) {
-      // t: 0 (just touched) -> 1 (fully faded). Mirrors a Li-ion
-      // discharge curve: instant peak, quick initial drop, a long
-      // gently-declining plateau, then a steep drop at the very end.
       if (t < initialDropEnd) {
         var f = t / initialDropEnd
         return 1.0 - f * (1.0 - plateauLevel)
@@ -119,15 +109,12 @@ Rectangle {
 
       frameCount += 1
 
-      // mark each pipe's current cell as freshly touched
       for (var i = 0; i < pipes.length; i++) {
         var p = pipes[i]
         var key = p.x + "," + p.y
         litCells[key] = { frame: frameCount, color: p.color }
       }
 
-      // redraw every lit cell from scratch based on its age - never
-      // accumulated/blended with previous frames, so no color drift
       var keys = Object.keys(litCells)
       for (var k = 0; k < keys.length; k++) {
         var key2 = keys[k]
@@ -136,7 +123,6 @@ Rectangle {
         var t = age / fadeDurationFrames
 
         if (t >= 1) {
-          // fully faded: erase back to grid and drop from the map
           var parts = key2.split(",")
           var gx2 = parseInt(parts[0], 10)
           var gy2 = parseInt(parts[1], 10)
@@ -151,8 +137,6 @@ Rectangle {
         var gy = parseInt(parts2[1], 10)
         var alpha = dischargeAlpha(t)
 
-        // paint grid color first so partial alpha blends toward
-        // the neutral grid, not toward black/transparent
         ctx.fillStyle = root.cOverlay
         ctx.fillRect(gx * cell, gy * cell, cell - 2, cell - 2)
         ctx.fillStyle = entry.color
@@ -161,7 +145,6 @@ Rectangle {
         ctx.globalAlpha = 1.0
       }
 
-      // advance pipes
       for (var j = 0; j < pipes.length; j++) {
         var pp = pipes[j]
 
@@ -187,7 +170,7 @@ Rectangle {
     }
 
     Timer {
-      interval: 60 // faster refresh to keep the higher pipe count smooth
+      interval: 60
       running: true
       repeat: true
       onTriggered: pipesCanvas.requestPaint()
@@ -197,14 +180,14 @@ Rectangle {
     onHeightChanged: { gridDrawn = false; requestPaint() }
   }
 
-  // Subtle dark overlay so the login card stays readable over busy pipes
+  // Subtle dark overlay so the card stays readable over busy pipes
   Rectangle {
     anchors.fill: parent
     color: root.cBase
     opacity: 0.15
   }
 
-  // ===================== CLOCK =====================
+  // ===================== CLOCK TIMER =====================
   Timer {
     interval: 1000
     running: true
@@ -212,234 +195,232 @@ Rectangle {
     triggeredOnStart: true
     onTriggered: {
       clockText.text = Qt.formatTime(new Date(), "hh:mm")
-      dateText.text = Qt.formatDate(new Date(), "dddd, d 'de' MMMM")
+      dateText.text = Qt.formatDate(new Date(), "yyyy-MM-dd")
     }
   }
 
-  Column {
-    id: clockColumn
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.top: parent.top
-    anchors.topMargin: parent.height * 0.12
-    spacing: 6
-
-    Text {
-      id: clockText
-      anchors.horizontalCenter: parent.horizontalCenter
-      color: root.cText
-      font.pixelSize: 96
-      font.weight: Font.Light
-      font.family: "LiterationSans Nerd Font Mono"
-    }
-
-    Text {
-      id: dateText
-      anchors.horizontalCenter: parent.horizontalCenter
-      color: root.cSubtext
-      font.pixelSize: 22
-      font.family: "LiterationSans Nerd Font Mono"
-    }
-  }
-
-  // ===================== LOGIN CARD =====================
+  // ===================== UNIFIED CARD =====================
   Rectangle {
     id: loginCard
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.top: clockColumn.bottom
-    anchors.topMargin: parent.height * 0.08
-    width: 360
-    height: loginColumn.implicitHeight + 64
-    radius: 14
-    color: Qt.rgba(0.173, 0.192, 0.227, 0.72) // surface w/ alpha
-    border.color: Qt.rgba(1, 1, 1, 0.06)
+    anchors.centerIn: parent
+    width: 400
+    height: unifiedColumn.implicitHeight + 80
+    radius: 18
+    color: Qt.rgba(0.173, 0.192, 0.227, 0.82)
+    border.color: Qt.rgba(1, 1, 1, 0.07)
     border.width: 1
 
     Column {
-      id: loginColumn
+      id: unifiedColumn
       anchors.centerIn: parent
       width: parent.width - 64
-      spacing: 18
+      spacing: 0
 
-      // Hidden ListView to read the current user's properties the
-      // way SDDM's models are actually meant to be used (as list
-      // models with delegates exposing name/icon/etc per row),
-      // rather than calling .data()/.get() directly which isn't
-      // consistently supported across SDDM versions.
-      ListView {
-        id: currentUserReader
-        visible: false
-        height: 0
-        width: 0
-        model: userModel
-        currentIndex: userModel.lastIndex
-        delegate: Item {
-          property string userName: model.name
-          property url userIcon: model.icon
-        }
-      }
+      // ---- CLOCK SECTION ----
+      Column {
+        width: parent.width
+        spacing: 6
+        bottomPadding: 24
 
-      // Avatar
-      Rectangle {
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: 84
-        height: 84
-        radius: 42
-        color: root.cOverlay
-        border.color: root.cBlue
-        border.width: 2
-
-        Image {
-          id: avatarImg
-          anchors.fill: parent
-          anchors.margins: 3
-          fillMode: Image.PreserveAspectCrop
-          source: currentUserReader.currentItem ? currentUserReader.currentItem.userIcon : ""
-          visible: source !== ""
+        Text {
+          id: clockText
+          anchors.horizontalCenter: parent.horizontalCenter
+          color: root.cText
+          font.pixelSize: 72
+          font.weight: Font.Bold
+          font.family: "LiterationSans Nerd Font"
         }
 
         Text {
-          anchors.centerIn: parent
-          visible: !avatarImg.visible
-          text: "🙂"
-          font.pixelSize: 36
-          color: root.cText
+          id: dateText
+          anchors.horizontalCenter: parent.horizontalCenter
+          color: root.cSubtext
+          font.pixelSize: 18
+          font.family: "LiterationSans Nerd Font"
         }
       }
 
-      // Username
-      Text {
-        anchors.horizontalCenter: parent.horizontalCenter
-        text: currentUserReader.currentItem ? currentUserReader.currentItem.userName : ""
-        color: root.cText
-        font.pixelSize: 18
-        font.family: "LiterationSans Nerd Font Mono"
+      // ---- DIVIDER ----
+      Rectangle {
+        width: parent.width
+        height: 2
+        color: Qt.rgba(1, 1, 1, 0.08)
       }
 
-      // Password field
-      Rectangle {
-        id: passwordBox
+      // ---- LOGIN SECTION ----
+      Column {
         width: parent.width
-        height: 44
-        radius: 8
-        color: root.cBase
-        border.color: passwordInput.activeFocus ? root.cBlue : root.cOverlay
-        border.width: 1
+        spacing: 18
+        topPadding: 24
 
-        property bool revealPassword: false
+        // Hidden ListView to read the current user's properties
+        ListView {
+          id: currentUserReader
+          visible: false
+          height: 0
+          width: 0
+          model: userModel
+          currentIndex: userModel.lastIndex
+          delegate: Item {
+            property string userName: model.name
+            property url userIcon: model.icon
+          }
+        }
 
-        TextInput {
-          id: passwordInput
-          anchors.left: parent.left
-          anchors.right: revealToggle.left
-          anchors.top: parent.top
-          anchors.bottom: parent.bottom
-          anchors.leftMargin: 14
-          anchors.rightMargin: 8
-          verticalAlignment: TextInput.AlignVCenter
-          echoMode: passwordBox.revealPassword ? TextInput.Normal : TextInput.Password
-          color: root.cText
-          font.pixelSize: 15
-          font.family: "LiterationSans Nerd Font Mono"
-          focus: true
-          selectByMouse: true
+        // Avatar
+        Rectangle {
+          anchors.horizontalCenter: parent.horizontalCenter
+          width: 84
+          height: 84
+          radius: 42
+          color: root.cOverlay
+          border.color: root.cBlue
+          border.width: 2
+
+          Image {
+            id: avatarImg
+            anchors.fill: parent
+            anchors.margins: 3
+            fillMode: Image.PreserveAspectCrop
+            source: currentUserReader.currentItem ? currentUserReader.currentItem.userIcon : ""
+            visible: source !== ""
+          }
 
           Text {
-            text: "Password"
-            color: root.cMuted
-            font.pixelSize: 15
-            font.family: "LiterationSans Nerd Font Mono"
-            anchors.verticalCenter: parent.verticalCenter
-            visible: passwordInput.text.length === 0
+            anchors.centerIn: parent
+            visible: !avatarImg.visible
+            text: "🙂"
+            font.pixelSize: 36
+            color: root.cText
           }
-
-          Keys.onReturnPressed: doLogin()
-          Keys.onEnterPressed: doLogin()
         }
 
-        // View password toggle (eye icon, drawn with simple shapes
-        // so no icon font/asset dependency is needed)
-        Item {
-          id: revealToggle
-          anchors.right: parent.right
-          anchors.top: parent.top
-          anchors.bottom: parent.bottom
-          anchors.rightMargin: 10
-          width: 28
+        // Username
+        Text {
+          anchors.horizontalCenter: parent.horizontalCenter
+          text: currentUserReader.currentItem ? currentUserReader.currentItem.userName : ""
+          color: root.cText
+          font.pixelSize: 18
+          font.family: "LiterationSans Nerd Font"
+        }
 
-          property color iconColor: revealMouse.containsMouse ? root.cText : root.cMuted
+        // Password field
+        Rectangle {
+          id: passwordBox
+          width: parent.width
+          height: 44
+          radius: 8
+          color: root.cBase
+          border.color: passwordInput.activeFocus ? root.cBlue : root.cOverlay
+          border.width: 1
 
-          // eye outline
-          Rectangle {
-            anchors.centerIn: parent
-            width: 18
-            height: 10
-            radius: 5
-            color: "transparent"
-            border.color: revealToggle.iconColor
-            border.width: 1.5
-          }
-          // pupil
-          Rectangle {
-            anchors.centerIn: parent
-            width: 5
-            height: 5
-            radius: 2.5
-            color: revealToggle.iconColor
-          }
-          // slash overlay when password is hidden (closed-eye look)
-          Rectangle {
-            anchors.centerIn: parent
-            width: 20
-            height: 1.5
-            rotation: 45
-            color: revealToggle.iconColor
-            visible: !passwordBox.revealPassword
+          property bool revealPassword: false
+
+          TextInput {
+            id: passwordInput
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.leftMargin: 14
+            anchors.rightMargin: 14
+            rightPadding: revealToggle.width + 8
+            verticalAlignment: TextInput.AlignVCenter
+            horizontalAlignment: TextInput.AlignHCenter
+            echoMode: passwordBox.revealPassword ? TextInput.Normal : TextInput.Password
+            color: root.cText
+            font.pixelSize: 15
+            font.family: "LiterationSans Nerd Font"
+            focus: true
+            selectByMouse: true
+
+            Text {
+              text: "Password"
+              color: root.cMuted
+              font.pixelSize: 15
+              font.family: "LiterationSans Nerd Font"
+              anchors.centerIn: parent
+              visible: passwordInput.text.length === 0
+            }
+
+            Keys.onReturnPressed: doLogin()
+            Keys.onEnterPressed: doLogin()
           }
 
-          MouseArea {
-            id: revealMouse
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            onClicked: {
-              passwordBox.revealPassword = !passwordBox.revealPassword
-              passwordInput.forceActiveFocus()
+          Item {
+            id: revealToggle
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.rightMargin: 10
+            width: 28
+
+            property color iconColor: revealMouse.containsMouse ? root.cText : root.cMuted
+
+            Rectangle {
+              anchors.centerIn: parent
+              width: 18; height: 10; radius: 5
+              color: "transparent"
+              border.color: revealToggle.iconColor
+              border.width: 1.5
+            }
+            Rectangle {
+              anchors.centerIn: parent
+              width: 5; height: 5; radius: 2.5
+              color: revealToggle.iconColor
+            }
+            Rectangle {
+              anchors.centerIn: parent
+              width: 20; height: 1.5; rotation: 45
+              color: revealToggle.iconColor
+              visible: !passwordBox.revealPassword
+            }
+
+            MouseArea {
+              id: revealMouse
+              anchors.fill: parent
+              hoverEnabled: true
+              cursorShape: Qt.PointingHandCursor
+              onClicked: {
+                passwordBox.revealPassword = !passwordBox.revealPassword
+                passwordInput.forceActiveFocus()
+              }
             }
           }
         }
-      }
 
-      // Error message
-      Text {
-        id: errorText
-        anchors.horizontalCenter: parent.horizontalCenter
-        color: root.cRed
-        font.pixelSize: 13
-        font.family: "LiterationSans Nerd Font Mono"
-        text: ""
-        visible: text !== ""
-      }
-
-      // Login button
-      Rectangle {
-        width: parent.width
-        height: 40
-        radius: 8
-        color: loginMouse.pressed ? Qt.darker(root.cBlue, 1.2) : root.cBlue
-
+        // Error message
         Text {
-          anchors.centerIn: parent
-          text: "Login"
-          color: root.cBase
-          font.pixelSize: 15
-          font.weight: Font.DemiBold
-          font.family: "LiterationSans Nerd Font Mono"
+          id: errorText
+          anchors.horizontalCenter: parent.horizontalCenter
+          color: root.cRed
+          font.pixelSize: 13
+          font.family: "LiterationSans Nerd Font"
+          text: ""
+          visible: text !== ""
         }
 
-        MouseArea {
-          id: loginMouse
-          anchors.fill: parent
-          onClicked: doLogin()
+        // Login button
+        Rectangle {
+          width: parent.width
+          height: 40
+          radius: 8
+          color: loginMouse.pressed ? Qt.darker(root.cBlue, 1.2) : root.cBlue
+
+          Text {
+            anchors.centerIn: parent
+            text: "Login"
+            color: root.cBase
+            font.pixelSize: 15
+            font.weight: Font.DemiBold
+            font.family: "LiterationSans Nerd Font"
+          }
+
+          MouseArea {
+            id: loginMouse
+            anchors.fill: parent
+            onClicked: doLogin()
+          }
         }
       }
     }
@@ -474,7 +455,7 @@ Rectangle {
       text: "Suspend"
       color: root.cSubtext
       font.pixelSize: 14
-      font.family: "LiterationSans Nerd Font Mono"
+      font.family: "LiterationSans Nerd Font"
       visible: sddm.canSuspend
       MouseArea { anchors.fill: parent; onClicked: sddm.suspend() }
     }
@@ -482,7 +463,7 @@ Rectangle {
       text: "Reboot"
       color: root.cYellow
       font.pixelSize: 14
-      font.family: "LiterationSans Nerd Font Mono"
+      font.family: "LiterationSans Nerd Font"
       visible: sddm.canReboot
       MouseArea { anchors.fill: parent; onClicked: sddm.reboot() }
     }
@@ -490,14 +471,13 @@ Rectangle {
       text: "Shutdown"
       color: root.cRed
       font.pixelSize: 14
-      font.family: "LiterationSans Nerd Font Mono"
+      font.family: "LiterationSans Nerd Font"
       visible: sddm.canPowerOff
       MouseArea { anchors.fill: parent; onClicked: sddm.powerOff() }
     }
   }
 
-  // Hidden ListView to read the current session's name, same pattern
-  // as currentUserReader above.
+  // Hidden ListView for session name
   ListView {
     id: currentSessionReader
     visible: false
@@ -521,7 +501,7 @@ Rectangle {
       text: currentSessionReader.currentItem ? currentSessionReader.currentItem.sessionName : ""
       color: root.cCyan
       font.pixelSize: 14
-      font.family: "LiterationSans Nerd Font Mono"
+      font.family: "LiterationSans Nerd Font"
     }
   }
 
