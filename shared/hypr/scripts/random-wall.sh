@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DIRS=(
-  "$HOME/dotfiles/shared/wallpapers/onedark"
+  "$HOME/dotfiles/shared/wallpapers/rally"
 )
 
 # start the daemon
