@@ -4,18 +4,20 @@
   "exclusive": true,
   "passthrough": false,
   "height": 10,
-  "modules-left": [],
+  "modules-left": [
+    "hyprland/workspaces"
+  ],
   "modules-center": [
-    "group/clock",
-    "hyprland/workspaces",
+    "group/clock"
+  ],
+  "modules-right": [
     "group/audio",
     "network",
     "battery",
     "custom/swaync",
-    "tray"
-  ],
-  "modules-right": [
-    "group/power-group"
+    "tray",
+    "idle_inhibitor",
+    "custom/power"
   ],
   "group/clock": {
     "orientation": "inherit",
@@ -38,7 +40,7 @@
   "clock#date": {
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "on-click": "gnome-calendar",
-    "on-click-right": "pkill waybar && hyprctl dispatch exec waybar && pkill hyprland-autoname-workspaces && hyprland-autoname-workspaces",
+    "on-click-right": "pkill waybar && waybar && pkill hyprland-autoname-workspaces && hyprland-autoname-workspaces",
     "calendar": {
       "mode": "year",
       "mode-mon-col": 3,
@@ -65,10 +67,6 @@
   },
   "group/audio": {
     "orientation": "horizontal",
-    "drawer": {
-      "transition-duration": 250,
-      "children-class": "audio-child"
-    },
     "modules": [
       "pulseaudio",
       "pulseaudio/slider"
@@ -160,26 +158,6 @@
   "tray": {
     "spacing": 8
   },
-  "custom/power": {
-    "format": "⏻",
-    "tooltip": false,
-    "on-click": "hyprshutdown -t 'Shutting down...' --post-cmd 'shutdown -P 0'"
-  },
-  "group/power-group": {
-    "orientation": "horizontal",
-    "drawer": {
-      "transition-duration": 250,
-      "children-class": "power-child",
-      "transition-left-to-right": false
-    },
-    "modules": [
-      "custom/power",
-      "idle_inhibitor",
-      "custom/lock",
-      "custom/suspend",
-      "custom/reboot"
-    ]
-  },
   "idle_inhibitor": {
     "format": "{icon}",
     "format-icons": {
@@ -187,19 +165,16 @@
       "deactivated": "󰒲"
     }
   },
-  "custom/reboot": {
-    "format": "",
+  "custom/power": {
+    "format": "Power",
     "tooltip": false,
-    "on-click": "hyprshutdown -t 'restarting...' --post-cmd 'reboot'"
-  },
-  "custom/suspend": {
-    "format": "󰤄",
-    "tooltip": false,
-    "on-click": "systemctl suspend"
-  },
-  "custom/lock": {
-    "format": "󰌾",
-    "tooltip": false,
-    "on-click": "hyprlock"
+    "menu": "on-click",
+    "menu-file": "~/dotfiles/shared/waybar/menus/shutdown.xml",
+    "menu-actions": {
+      "lock": "hyprlock",
+      "suspend": "systemctl suspend",
+      "reboot": "hyprshutdown -t 'restarting...' --post-cmd 'reboot'",
+      "shutdown": "hyprshutdown -t 'Shutting down...' --post-cmd 'shutdown -P 0'"
+    }
   }
 }

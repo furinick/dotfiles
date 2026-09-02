@@ -2,7 +2,7 @@
 
 * {
   font-family: "LiterationSans Nerd Font", "Liberation Sans Font", monospace;
-  font-size: 19px;
+  font-size: 17px;
   font-weight: 500;
   border: none;
   border-radius: 0;
@@ -15,34 +15,19 @@
 BAR
 ============================================================ */
 window#waybar {
-  background: transparent;
+  background: @surface;
   color: @white;
 }
 
 
 /* ============================================================
-PILLS
+SECTIONS (no more pill islands, just flat zones on the bar)
 ============================================================ */
-.modules-center {
-  background: @surface;
-  border-radius: 0 0 1em 1em;
-  padding: 0.1em 0.25em;
-  min-height: 2em;
-  transition: background 0.2s ease,
-    color 0.2s ease,
-    padding 0.2s ease,
-    opacity 0.2s ease;
-}
-
+.modules-left,
+.modules-center,
 .modules-right {
-  background: @surface;
-  border-radius: 9999em;
-  padding: 0.1em 0.5em;
-  min-height: 2em;
-  transition: background 0.2s ease,
-    color 0.2s ease,
-    padding 0.2s ease,
-    opacity 0.2s ease;
+  padding: 0 0.25em;
+  min-height: 1.6em;
 }
 
 /* ============================================================
@@ -65,34 +50,27 @@ WORKSPACES
 }
 
 #workspaces button {
-  padding: 0 0.2em;
-  margin: 0.3em 0.2em;
-  min-height: 1.4em;
-  border-radius: 9999em;
+  padding: 0 0.4em;
+  margin: 0.15em 0.1em;
+  min-height: 1.2em;
+  border-radius: 0;
   color: @subtext;
   background: transparent;
   transition: background 0.2s ease,
     color 0.2s ease,
     padding 0.2s ease,
-    opacity 0.2s ease,
-    min-width 0.1s ease;
+    opacity 0.2s ease;
 }
 
 #workspaces button:hover {
   background: @overlay;
   color: @text;
   text-shadow: 0 0;
-  padding: 0 0.75em;
 }
 
 #workspaces button.active {
   background: @blue;
   color: @white;
-  padding: 0 0.75em;
-}
-
-#workspaces button.active:hover {
-  padding: 0 1em;
 }
 
 #workspaces button.urgent {
@@ -116,21 +94,15 @@ SHARED MODULE STYLES
 #idle_inhibitor,
 .audio-child,
 .power-child {
-  padding: 0 0.25em;
-  margin: 0.3em 0.1em;
-  min-height: 1.4em;
-  border-radius: 9999em;
+  padding: 0 0.3em;
+  margin: 0.15em 0.05em;
+  min-height: 1.2em;
+  border-radius: 0;
   transition: background 0.2s ease,
     color 0.2s ease,
     opacity 0.2s ease,
     min-width 0.5s ease;
 }
-
-#pulseaudio:hover,
-#network:hover,
-#custom-swaync:hover,
-#custom-power:hover,
-.power-child:hover {}
 
 /* ============================================================
 AUDIO
@@ -143,8 +115,6 @@ AUDIO
   color: @red;
 }
 
-#pulseaudio-slider {}
-
 #pulseaudio-slider slider {
   min-height: 0px;
   min-width: 0px;
@@ -155,16 +125,16 @@ AUDIO
 }
 
 #pulseaudio-slider trough {
-  min-height: 0.5em;
+  min-height: 0.4em;
   min-width: 3em;
-  border-radius: 99em;
+  border-radius: 0;
   background: @base;
 }
 
 #pulseaudio-slider highlight {
   min-width: 0.1em;
-  border-radius: 0.5em;
-  background: @white;
+  border-radius: 0;
+  background: @purple;
 }
 
 /* ============================================================
@@ -185,8 +155,6 @@ NOTIFICATIONS
   color: @yellow;
 }
 
-#custom-swaync.notification {}
-
 #custom-swaync.dnd-none,
 #custom-swaync.dnd-notification {
   color: @muted;
@@ -196,26 +164,11 @@ NOTIFICATIONS
 TRAY
 ============================================================ */
 #tray {
-  background: @overlay;
-  padding: 0 0.75em;
-  margin: 0.3em 0.2em;
-  min-height: 1.4em;
-  border-radius: 9999em;
+  padding: 0 0.4em;
+  margin: 0.15em 0.1em;
+  min-height: 1.2em;
+  border-radius: 0;
   color: @subtext;
-  transition: background 0.2s ease,
-    color 0.2s ease,
-    padding 0.2s ease,
-    opacity 0.2s ease,
-    min-width 0.1s ease;
-}
-
-/* ============================================================
-MODULES RIGHT
-============================================================ */
-
-.modules-right {
-  margin-right: 1em;
-  margin-top: 0.1em;
 }
 
 /* ============================================================
@@ -226,7 +179,7 @@ POWER
 }
 
 .power-child label {
-  padding: 0 0.5em;
+  padding: 0 0.4em;
 }
 
 #custom-power:hover {
@@ -251,6 +204,37 @@ TOOLTIPS
 tooltip {
   background: @overlay;
   color: @white;
-  border-radius: 6px;
+  border-radius: 0;
   padding: 6px 8px;
+}
+
+/* ============================================================
+POWER MENU (GtkMenu popup from custom/power)
+============================================================ */
+menu {
+  background: @surface;
+  color: @white;
+  border-radius: 0;
+  padding: 0.2em;
+}
+
+menuitem {
+  padding: 0.4em 0.8em;
+  min-width: 6em;
+  border-radius: 0;
+  color: @white;
+  background: transparent;
+  transition: background 0.2s ease,
+    color 0.2s ease;
+}
+
+menuitem:hover {
+  background: @blue;
+  color: @white;
+}
+
+menuitem separator {
+  background: @overlay;
+  min-height: 1px;
+  margin: 0.2em 0;
 }
