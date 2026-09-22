@@ -52,7 +52,7 @@ show_actions = ["alt j"]
 [providers]
 default = ["desktopapplications", "calc", "websearch"]
 empty = []
-max_results = 5
+max_results = 10
 
 
 [providers.argument_delimiter]

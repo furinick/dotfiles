@@ -1,7 +1,7 @@
 @import './onedark.css';
 
 * {
-  border-radius: 0.5em;
+  border-radius: 0em;
   font-family: "LiterationSans Nerd Font", monospace;
 }
 
@@ -17,7 +17,7 @@
 .notification {
   background: @surface;
   color: @text;
-  border-radius: 12px;
+  border-radius: 0em;
   border: 1px solid @overlay;
   margin: 6px 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
@@ -27,11 +27,9 @@
   padding: 10px 12px;
 }
 
-/* this is the whole clickable surface, not a button — keep it transparent
-   and just use it for hover feedback */
 .notification-default-action {
   background: transparent;
-  border-radius: 12px;
+  border-radius: 0em;
   transition: background 150ms ease;
 }
 
@@ -63,7 +61,7 @@
 .close-button {
   background: transparent;
   color: @subtext;
-  border-radius: 999px;
+  border-radius: 0em;
   min-width: 22px;
   min-height: 22px;
   transition: background 150ms ease, color 150ms ease;
@@ -136,13 +134,14 @@
 }
 
 .widget-buttons,
-.widget-buttons-grid {
-  padding: 10px;
-  margin: 5px 10px;
+.widget-buttons-grid,
+#quick {
+  padding: 10em;
+  margin: 50px 100px;
 }
 
-.widget-buttons > flowbox > flowboxchild > button,
-.widget-buttons-grid > flowbox > flowboxchild > button {
-  padding: 15px 20px;
-  margin: 5px;
+.widget-buttons>flowbox>flowboxchild>button,
+.widget-buttons-grid>flowbox>flowboxchild>button {
+  padding: 150px 200px;
+  margin: 500x;
 }

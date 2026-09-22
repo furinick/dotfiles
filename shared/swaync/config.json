@@ -1,9 +1,9 @@
 {
   "positionX": "right",
   "positionY": "top",
-  "control-center-margin-top": 10,
-  "control-center-margin-bottom": 10,
-  "control-center-margin-right": 10,
+  "control-center-margin-top": 8,
+  "control-center-margin-bottom": 8,
+  "control-center-margin-right": 8,
   "notification-window-width": 500,
   "timeout": 10,
   "timeout-low": 5,
@@ -16,17 +16,23 @@
   "hide-on-action": true,
   "widgets": [
     "title",
-    "buttons-grid#quick",
     "notifications",
+    "calendar",
     "volume",
     "backlight",
-    "buttons-grid#power"
+    "buttons-grid#quick"
   ],
   "widget-config": {
     "title": {
       "text": "Control Center",
       "clear-all-button": true,
       "button-text": "Clear All"
+    },
+    "volume": {
+      "label": "󰕾"
+    },
+    "backlight": {
+      "label": "󰃠"
     },
     "buttons-grid#quick": {
       "buttons-per-row": 3,
@@ -44,33 +50,6 @@
           "command": "swaync-client --reload-config"
         }
       ]
-    },
-    "buttons-grid#power": {
-      "buttons-per-row": 4,
-      "actions": [
-        {
-          "label": "󰐥",
-          "command": "hyprshutdown -t 'Shutting down...' --post-cmd 'shutdown -P 0'"
-        },
-        {
-          "label": "󰜉",
-          "command": "hyprshutdown -t 'Rebooting...' --post-cmd 'shutdown -r 0'"
-        },
-        {
-          "label": "󰌾",
-          "command": "hyprlock"
-        },
-        {
-          "label": "󰍃",
-          "command": "hyprctl dispatch exit"
-        }
-      ]
-    },
-    "volume": {
-      "label": "󰕾"
-    },
-    "backlight": {
-      "label": "󰃠"
     }
   }
 }

@@ -12,6 +12,7 @@
   ],
   "modules-right": [
     "group/audio",
+    "group/backlight",
     "network",
     "battery",
     "custom/swaync",
@@ -67,6 +68,12 @@
   },
   "group/audio": {
     "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 250,
+      "children-class": "audio-child",
+      "click-to-reveal": false,
+      "transition-left-to-right": true
+    },
     "modules": [
       "pulseaudio",
       "pulseaudio/slider"
@@ -93,6 +100,37 @@
     "max": 100,
     "orientation": "horizontal"
   },
+  "group/backlight": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 250,
+      "children-class": "backlight-child",
+      "click-to-reveal": false,
+      "transition-left-to-right": true
+    },
+    "modules": [
+      "backlight",
+      "backlight/slider"
+    ]
+  },
+  "backlight": {
+    "format": "{icon}",
+    "format-alt": "{percent}%{icon}",
+    "format-icons": [
+      "󰃜",
+      "󰃛",
+      "󰃚",
+      "󰃞",
+      "󰃝",
+      "󰃟",
+      "󰃠"
+    ]
+  },
+  "backlight/slider": {
+    "min": 0,
+    "max": 100,
+    "orientation": "horizontal"
+  },
   "network": {
     "format-wifi": "{icon}",
     "format-disconnected": "󰤭",
@@ -111,10 +149,10 @@
   },
   "battery": {
     "format": "{icon}",
-    "format-alt": "{icon}{capacity}%",
+    "format-alt": "{capacity}%{icon}",
     "format-time": "{H}:{m}",
     "tooltip": "true",
-    "tooltip-format": "󱦟 {time}\n󱐋 {power} watt",
+    "tooltip-format": "󱦟 {time}\n󱐋 {power}w",
     "format-icons": [
       "󰂎",
       "󰁺",
@@ -166,7 +204,7 @@
     }
   },
   "custom/power": {
-    "format": "Power",
+    "format": "󰐦",
     "tooltip": false,
     "menu": "on-click",
     "menu-file": "~/dotfiles/shared/waybar/menus/shutdown.xml",

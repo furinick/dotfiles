@@ -16,12 +16,12 @@ BAR
 ============================================================ */
 window#waybar {
   background: @surface;
-  color: @white;
+  color: @text;
 }
 
 
 /* ============================================================
-SECTIONS (no more pill islands, just flat zones on the bar)
+SECTIONS
 ============================================================ */
 .modules-left,
 .modules-center,
@@ -34,13 +34,12 @@ SECTIONS (no more pill islands, just flat zones on the bar)
 CLOCK
 ============================================================ */
 #clock {
-  color: @white;
   padding: 0 0.25em 0 0.5em;
   font-weight: bold;
   transition: color 0.3s ease;
 }
 
-#clock-child {}
+/* #clock-child {} */
 
 /* ============================================================
 WORKSPACES
@@ -115,6 +114,10 @@ AUDIO
   color: @red;
 }
 
+#pulseaudio-slider {
+  padding: 0 0.5em;
+}
+
 #pulseaudio-slider slider {
   min-height: 0px;
   min-width: 0px;
@@ -134,7 +137,42 @@ AUDIO
 #pulseaudio-slider highlight {
   min-width: 0.1em;
   border-radius: 0;
-  background: @purple;
+  background: @white;
+}
+
+
+/* ============================================================
+BACKLIGHT
+============================================================ */
+
+#backlight {
+  color: @white;
+}
+
+#backlight-slider {
+  padding: 0 0.5em;
+}
+
+#backlight-slider slider {
+  min-height: 0px;
+  min-width: 0px;
+  opacity: 0;
+  background-image: none;
+  border: none;
+  box-shadow: none;
+}
+
+#backlight-slider trough {
+  min-height: 0.4em;
+  min-width: 3em;
+  border-radius: 0;
+  background-color: @base;
+}
+
+#backlight-slider highlight {
+  min-width: 0.1em;
+  border-radius: 0;
+  background-color: @white;
 }
 
 /* ============================================================
@@ -178,34 +216,13 @@ POWER
   color: @white;
 }
 
-.power-child label {
-  padding: 0 0.4em;
-}
-
-#custom-power:hover {
-  color: @red;
-}
-
-#custom-reboot:hover {
-  color: @green;
-}
-
-#custom-suspend:hover {
-  color: @blue;
-}
-
-#custom-lock:hover {
-  color: @yellow;
-}
-
 /* ============================================================
 TOOLTIPS
 ============================================================ */
 tooltip {
-  background: @overlay;
+  background: @base;
   color: @white;
-  border-radius: 0;
-  padding: 6px 8px;
+  padding: 1em;
 }
 
 /* ============================================================
@@ -220,7 +237,6 @@ menu {
 
 menuitem {
   padding: 0.4em 0.8em;
-  min-width: 6em;
   border-radius: 0;
   color: @white;
   background: transparent;
@@ -231,10 +247,4 @@ menuitem {
 menuitem:hover {
   background: @blue;
   color: @white;
-}
-
-menuitem separator {
-  background: @overlay;
-  min-height: 1px;
-  margin: 0.2em 0;
 }

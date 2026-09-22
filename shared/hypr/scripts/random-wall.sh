@@ -5,7 +5,9 @@ DIRS=(
 )
 
 # start the daemon
-hyprctl dispatch exec awww-daemon
+if ! pgrep -x awww-daemon >/dev/null; then
+  awww-daemon &
+fi
 sleep 1
 
 while true; do
