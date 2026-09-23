@@ -1,0 +1,7 @@
+require("conf/autostart")
+require("conf/env")
+require("conf/look&feel")
+require("conf/misc")
+require("conf/keybindings")
+require("conf/windows&workspaces")
+require("conf/plugins")

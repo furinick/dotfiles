@@ -5,12 +5,13 @@
 -- see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 
 local mainMod = "SUPER"
+local programs = require("conf.programs")
 
 -- Apps
-hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(Terminal))
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(FileManager))
-hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(Menu))
-hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(Browser))
+hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(programs.Terminal))
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(programs.FileManager))
+hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(programs.Menu))
+hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(programs.Browser))
 hl.bind(mainMod .. " + CONTROL + V", hl.dsp.exec_cmd("walker -m clipboard"))
 
 -- Window management
