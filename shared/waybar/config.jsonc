@@ -5,6 +5,7 @@
   "passthrough": false,
   "height": 10,
   "modules-left": [
+    "custom/start",
     "hyprland/workspaces"
   ],
   "modules-center": [
@@ -35,13 +36,13 @@
   },
   "clock#time": {
     "format": "{:%R}",
-    "on-click-right": "pkill waybar && hyprctl dispatch exec waybar && pkill hyprland-autoname-workspaces && hyprland-autoname-workspaces",
+    "on-click-right": "pkill waybar; pkill hyprland-autona; waybar & hyprland-autoname-workspaces",
     "tooltip": false
   },
   "clock#date": {
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "on-click": "gnome-calendar",
-    "on-click-right": "pkill waybar && waybar && pkill hyprland-autoname-workspaces && hyprland-autoname-workspaces",
+    "on-click-right": "pkill waybar; pkill hyprland-autona; waybar & hyprland-autoname-workspaces",
     "calendar": {
       "mode": "year",
       "mode-mon-col": 3,
@@ -62,9 +63,69 @@
     },
     "format": "{:%F}"
   },
+  "custom/start": {
+    "exec": "~/.config/waybar/scripts/start-status.sh",
+    "return-type": "json",
+    "interval": 600,
+    "format": "{icon}",
+    "format-icons": {
+      "default": "❖",
+      "updates": "󰚰"
+    },
+    "menu": "on-click",
+    "menu-file": "~/.config/waybar/menus/start-menu.xml",
+    "menu-actions": {
+      "terminal": "kitty",
+      "browser": "firefox",
+      "files": "thunar",
+      "update": "kitty -e sudo pacman -Syu",
+      "screenshot": "grimblast copy area",
+      "picker": "hyprpicker -a",
+      "dnd": "swaync-client -d",
+      "restart": "sh -c 'pkill waybar; sleep 0.5; waybar &'"
+    },
+    "on-click-right": "walker"
+  },
   "hyprland/workspaces": {
-    "format": "{name}",
-    "all-outputs": false
+    "format": "{icon} {windows}",
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "1",
+      "7": "2",
+      "8": "3",
+      "9": "4",
+      "10": "5"
+    },
+    "format-window-separator": "",
+    "window-rewrite-default": "󰣆",
+    "window-rewrite": {
+      "class<.*firefox.*>": "󰈹",
+      "class<.*kitty.*>": "",
+      "class<.*steam.*>": "󰓓",
+      "class<steam_app.*>": "󰊴",
+      "class<.*discord.*>": "",
+      "class<.*vesktop.*>": "",
+      "class<.*spotify.*>": "󰓇",
+      "class<.*mpv.*>": "",
+      "class<.*vlc.*>": "󰕼",
+      "class<.*gimp.*>": "",
+      "class<.*krita.*>": "",
+      "class<.*yazi.*>": "",
+      "class<.*dolphin.*>": "",
+      "class<.*pavucontrol.*>": "󰓃",
+      "class<.*printer.*>": "󰐪",
+      "class<.*config.*>": "",
+      "class<.*setting.*>": "",
+      "class<.*(firefox|chrom).*> title<.*youtube music.*>": "",
+      "class<.*(firefox|chrom).*> title<.*youtube.*>": "",
+      "class<.*(firefox|chrom).*> title<.*github.*>": "",
+      "class<.*(firefox|chrom).*> title<.*reddit.*>": "󰑍",
+      "class<.*fcitx.*>": ""
+    }
   },
   "group/audio": {
     "orientation": "horizontal",
@@ -201,7 +262,9 @@
     "format-icons": {
       "activated": "󰒳",
       "deactivated": "󰒲"
-    }
+    },
+    "tooltip-format-activated": "Sleep OFF",
+    "tooltip-format-deactivated": "Sleep ON"
   },
   "custom/power": {
     "format": "󰐦",

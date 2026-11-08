@@ -4,7 +4,7 @@
   "control-center-margin-top": 8,
   "control-center-margin-bottom": 8,
   "control-center-margin-right": 8,
-  "notification-window-width": 500,
+  "notification-window-width": 200,
   "timeout": 10,
   "timeout-low": 5,
   "timeout-critical": 0,

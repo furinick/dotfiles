@@ -104,8 +104,9 @@ SHARED MODULE STYLES
 }
 
 /* ============================================================
-AUDIO
-============================================================ */
+   AUDIO
+   ============================================================ */
+
 #pulseaudio {
   color: @white;
 }
@@ -114,45 +115,44 @@ AUDIO
   color: @red;
 }
 
-#pulseaudio-slider {
-  padding: 0 0.5em;
-}
-
-#pulseaudio-slider slider {
-  min-height: 0px;
-  min-width: 0px;
-  opacity: 0;
-  background-image: none;
-  border: none;
-  box-shadow: none;
-}
-
-#pulseaudio-slider trough {
-  min-height: 0.4em;
-  min-width: 3em;
-  border-radius: 0;
-  background: @base;
-}
-
-#pulseaudio-slider highlight {
-  min-width: 0.1em;
-  border-radius: 0;
-  background: @white;
-}
-
 
 /* ============================================================
-BACKLIGHT
-============================================================ */
+   BACKLIGHT
+   ============================================================ */
 
 #backlight {
   color: @white;
 }
 
+
+/* ============================================================
+   SLIDERS (shared by audio + backlight)
+   ============================================================ */
+
+#pulseaudio-slider,
 #backlight-slider {
   padding: 0 0.5em;
 }
 
+/* Track */
+#pulseaudio-slider trough,
+#backlight-slider trough {
+  min-height: 0.5em;
+  min-width: 5em;
+  border-radius: 0.45em;
+  background: @overlay;
+}
+
+/* Filled part */
+#pulseaudio-slider highlight,
+#backlight-slider highlight {
+  min-width: 0.9em;
+  border-radius: 0.45em;
+  background: @white;
+}
+
+/* Knob: hidden, but the whole bar is still draggable */
+#pulseaudio-slider slider,
 #backlight-slider slider {
   min-height: 0px;
   min-width: 0px;
@@ -160,19 +160,6 @@ BACKLIGHT
   background-image: none;
   border: none;
   box-shadow: none;
-}
-
-#backlight-slider trough {
-  min-height: 0.4em;
-  min-width: 3em;
-  border-radius: 0;
-  background-color: @base;
-}
-
-#backlight-slider highlight {
-  min-width: 0.1em;
-  border-radius: 0;
-  background-color: @white;
 }
 
 /* ============================================================
@@ -247,4 +234,32 @@ menuitem {
 menuitem:hover {
   background: @blue;
   color: @white;
+}
+
+/* random bullshit ------------------------------------------*/
+
+#custom-start {
+  padding: 0 0.8em;
+  color: @white;
+}
+
+#custom-start.updates {
+  color: @yellow;
+}
+
+menu {
+  background: @base;
+  color: @text;
+  border: 1px solid @overlay;
+  border-radius: 0;
+  padding: 4px;
+}
+
+menuitem {
+  padding: 6px 12px;
+  border-radius: 0;
+}
+
+menuitem:hover {
+  background: @overlay;
 }

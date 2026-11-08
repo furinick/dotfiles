@@ -1,14 +1,30 @@
+/* ==========================================================================
+   1. IMPORTS & GLOBALS
+   ========================================================================== */
+
 @import './onedark.css';
 
 * {
-  border-radius: 0em;
   font-family: "LiterationSans Nerd Font", monospace;
 }
 
+
+/* ==========================================================================
+   2. CONTROL CENTER (container)
+   ========================================================================== */
+
 .control-center {
+  border-radius: 0;
   background: @base;
   color: @text;
 }
+
+
+/* ==========================================================================
+   3. NOTIFICATIONS
+   ========================================================================== */
+
+/* --- Row & card ---------------------------------------------------------- */
 
 .notification-row {
   outline: none;
@@ -23,18 +39,19 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 
+/* Urgency variants */
+.notification.critical {
+  border-left: 3px solid @red;
+}
+
+.notification.low {
+  border-left: 3px solid @muted;
+}
+
+/* --- Content ------------------------------------------------------------- */
+
 .notification-content {
   padding: 10px 12px;
-}
-
-.notification-default-action {
-  background: transparent;
-  border-radius: 0em;
-  transition: background 150ms ease;
-}
-
-.notification-default-action:hover {
-  background: @overlay;
 }
 
 .summary {
@@ -58,6 +75,20 @@
   border-radius: 8px;
 }
 
+/* --- Clickable area (default action) ------------------------------------- */
+
+.notification-default-action {
+  background: transparent;
+  border-radius: 0em;
+  transition: background 150ms ease;
+}
+
+.notification-default-action:hover {
+  background: @overlay;
+}
+
+/* --- Close button -------------------------------------------------------- */
+
 .close-button {
   background: transparent;
   color: @subtext;
@@ -72,7 +103,8 @@
   color: @white;
 }
 
-/* the actual action buttons, e.g. "Reply" / "Open", shown below the body */
+/* --- Action buttons (e.g. "Reply" / "Open", shown below the body) -------- */
+
 .notification-action {
   background: @overlay;
   color: @text;
@@ -86,13 +118,112 @@
   color: @base;
 }
 
-.notification.critical {
-  border-left: 3px solid @red;
+
+/* ==========================================================================
+   4. CONTROL CENTER WIDGETS
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   4.1 Title ("Control Center" + Clear All)
+   -------------------------------------------------------------------------- */
+
+.title-button {
+  background: @blue;
+  color: @white;
+  border-radius: 0.25em;
 }
 
-.notification.low {
-  border-left: 3px solid @muted;
+.title-button:hover {
+  background: @cyan;
 }
+
+
+/* --------------------------------------------------------------------------
+   4.2 Volume & backlight sliders (Android-style)
+   Structure: scale > trough > (highlight = filled part, slider = knob)
+   -------------------------------------------------------------------------- */
+
+.widget-volume,
+.widget-backlight {
+  background: transparent;
+  padding: 6px 12px;
+  margin: 4px 8px;
+}
+
+/* Track */
+.widget-volume scale trough,
+.widget-backlight scale trough {
+  min-height: 32px;
+  border-radius: 16px;
+  background: @overlay;
+  border: none;
+  box-shadow: none;
+}
+
+/* Filled part */
+.widget-volume scale trough highlight,
+.widget-backlight scale trough highlight {
+  background: @blue;
+  border-radius: 16px;
+  border: none;
+}
+
+/* Knob: hidden, but the whole bar is still draggable */
+.widget-volume scale trough slider,
+.widget-backlight scale trough slider {
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+/* Alternative: if the fill looks squared off at low values, replace the
+   "hidden knob" block above with this one. The knob matches the fill color
+   and reads as the rounded end of the bar.
+
+.widget-volume scale trough slider,
+.widget-backlight scale trough slider {
+  min-width: 32px;
+  min-height: 32px;
+  margin: 0 -16px;
+  background: @blue;
+  border-radius: 16px;
+  border: none;
+  box-shadow: none;
+}
+*/
+
+
+/* --------------------------------------------------------------------------
+   4.3 Quick buttons grid (wifi / bluetooth / reload)
+   -------------------------------------------------------------------------- */
+
+.widget-buttons-grid {
+  padding: 8px;
+  margin: 4px 8px;
+}
+
+.widget-buttons-grid>flowbox>flowboxchild>button {
+  padding: 8px 12px;
+  margin: 4px;
+  background: @surface;
+  color: @text;
+  border: 1px solid @overlay;
+  border-radius: 0em;
+}
+
+.widget-buttons-grid>flowbox>flowboxchild>button:hover {
+  background: @overlay;
+}
+
+
+/* --------------------------------------------------------------------------
+   4.4 Unused widgets (not in your "widgets" list right now)
+   Add "dnd" or "mpris" to the widgets array in config.json to use these.
+   -------------------------------------------------------------------------- */
 
 .widget-dnd {
   background: @surface;
@@ -110,38 +241,4 @@
 
 .widget-mpris-player:hover {
   background: @overlay;
-}
-
-.volume-slider,
-.backlight-slider {
-  background: @overlay;
-  border-radius: 0.5em;
-}
-
-.volume-slider:hover,
-.backlight-slider:hover {
-  background: @overlay;
-}
-
-.title-button {
-  background: @blue;
-  color: @white;
-  border-radius: 0.25em;
-}
-
-.title-button:hover {
-  background: @cyan;
-}
-
-.widget-buttons,
-.widget-buttons-grid,
-#quick {
-  padding: 10em;
-  margin: 50px 100px;
-}
-
-.widget-buttons>flowbox>flowboxchild>button,
-.widget-buttons-grid>flowbox>flowboxchild>button {
-  padding: 150px 200px;
-  margin: 500x;
 }

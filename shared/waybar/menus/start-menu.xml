@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkMenu" id="menu">
+    <child><object class="GtkMenuItem" id="terminal"><property name="label">  Terminal</property></object></child>
+    <child><object class="GtkMenuItem" id="browser"><property name="label">󰈹  Browser</property></object></child>
+    <child><object class="GtkMenuItem" id="files"><property name="label">󰉋  Files</property></object></child>
+    <child><object class="GtkSeparatorMenuItem"/></child>
+    <child><object class="GtkMenuItem" id="update"><property name="label">󰚰  Update system</property></object></child>
+    <child><object class="GtkMenuItem" id="screenshot"><property name="label">󰹑  Screenshot</property></object></child>
+    <child><object class="GtkMenuItem" id="picker"><property name="label">󰃉  Color picker</property></object></child>
+    <child><object class="GtkMenuItem" id="dnd"><property name="label">󰂛  Toggle DND</property></object></child>
+    <child><object class="GtkSeparatorMenuItem"/></child>
+    <child><object class="GtkMenuItem" id="restart"><property name="label">󰑓  Restart bar</property></object></child>
+  </object>
+</interface>
